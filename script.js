@@ -3,7 +3,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (data){
     var size = d3.min([window.innerWidth*0.9, window.innerHeight*0.9])
 
     var dimensions = ({
-            width: size, 
+            width: size,
             height: size/3,
             margin: {
             top: 10,
@@ -12,4 +12,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (data){
             left: 50
         }
     })
+
+    var svg = d3.select(#vis1)
+        .style("width", dimensions.width)
+        .style("height", dimensions.height)
+
 })
