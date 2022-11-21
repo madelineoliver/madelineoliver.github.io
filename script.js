@@ -22,6 +22,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
   var svg = d3.select("#vis1")
         .style("width", dimensions.width)
         .style("height", dimensions.height)
+        .attr("class", "line-background")
 
   var xScale = d3.scaleLinear()
         .domain(d3.extent(dataset, xAccessor))
