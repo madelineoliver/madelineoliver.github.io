@@ -11,7 +11,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
             left: 100
         }
     }
-    
+
     dimensions.boundedWidth = dimensions.width - dimensions.margin.right - dimensions.margin.left
     dimensions.boundedHeight = dimensions.height - dimensions.margin.top - dimensions.margin.bottom
 
@@ -29,7 +29,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
             .domain(dataset.map(function(d) { return d.Genre; }))
             .range([0,dimensions.boundedWidth])
             .padding([0.2])
-            
+
     var yScale = d3.scaleLinear()
             .domain([1, d3.max(dataset, function(d) { return d.Ranking; })])
             .range([dimensions.boundedHeight ,0]);
@@ -46,9 +46,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     g.append("g")
             .attr("transform", "translate(0," + dimensions.height + ")")
             .call(d3.axisBottom(xScale));
-    
+
     g.append("g")
             .call(d3.axisLeft(yScale));
-   
-})
 
+})
