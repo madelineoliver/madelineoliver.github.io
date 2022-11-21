@@ -43,13 +43,13 @@ var dots = svg.append("g")
 
   var xAxisGen = d3.axisBottom().scale(xScale)
         var xAxis = svg.append("g")
-                       .call(xAxisGen)
-                       .style("transform", `translateY(${dimensions.height-dimensions.margin.bottom}px)`)
+                      .call(xAxisGen)
+                      .style("transform", `translateY(${dimensions.height-dimensions.margin.bottom}px)`)
 
 
-  var yAxisGen = var xAxisGen = d3.axisLeft().scale(yScale)
-        var xAxis = svg.append("g")
-                     .call(yAxisGen)
-                     .style("transform", `translateX(${dimensions.margin.left}px)`)
+  var yAxisGen =  d3.axisLeft().scale(yScale)
+  var yAxis = svg.append("g")
+                .call(yAxisGen)
+                .style("transform", `translateX(${dimensions.margin.left}px)`)
 
 })
