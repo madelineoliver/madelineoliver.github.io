@@ -16,7 +16,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
   console.log(dataset)
 
   var xAccessor = d => d.Year
-  var yAccessor = d => d.Track
+=======
+  var yAccessor = d => d.Tracks
+
+
+
 
   var svg = d3.select("#vis1")
         .style("width", dimensions.width)
@@ -51,4 +55,7 @@ var dots = svg.append("g")
   var yAxis = svg.append("g")
                 .call(yAxisGen)
                 .style("transform", `translateX(${dimensions.margin.left}px)`)
+
+
+
 })

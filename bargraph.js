@@ -31,8 +31,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
             .padding([0.2])
 
     var yScale = d3.scaleLinear()
-            .domain([1, d3.max(dataset, function(d) { return d.Ranking; })])
-            .range([dimensions.boundedHeight ,0]);
+             //
+            .domain([1, d3.max(dataset, function(d) { return d.Ranking;})])
+            .range([dimensions.boundedHeight , 0]);
     // Append rectangles for bar chart
   /*svg.selectAll(".bar")
         .data(dataset)
