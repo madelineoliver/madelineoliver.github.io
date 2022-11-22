@@ -4,11 +4,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
     var dimensions = ({
             width: size,
-<<<<<<< HEAD
-            height: size/3,
-=======
             height: size / 3,
->>>>>>> d31967c96f6f61dd95e85ec284a5760be92eacd5
             margin: {
             top: 10,
             right: 10,
@@ -20,52 +16,17 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
   console.log(dataset)
 
   var xAccessor = d => d.Year
-<<<<<<< HEAD
-  var xAccessor = d => d.Tracks
-=======
   var yAccessor = d => d.Tracks
-
->>>>>>> d31967c96f6f61dd95e85ec284a5760be92eacd5
-
 
   var svg = d3.select("#vis1")
         .style("width", dimensions.width)
         .style("height", dimensions.height)
-<<<<<<< HEAD
-=======
         .attr("class", "line-background")
->>>>>>> d31967c96f6f61dd95e85ec284a5760be92eacd5
 
   var xScale = d3.scaleLinear()
         .domain(d3.extent(dataset, xAccessor))
         .range([dimensions.margin.left ,dimensions.width - dimensions.margin.right])
 
-<<<<<<< HEAD
-
-
-
-  var xAxisGen = d3.axisBottom().scale(xScale)
-        var xAxis = svg.append("g")
-                       .call(xAxisGen)
-                       .style("transform", `translateY(${dimensions.height-dimensions.margin.bottom}px)`)
-
-
-var yAxisGen = var xAxisGen = d3.axisBottom().scale(xScale)
-      var xAxis = svg.append("g")
-                     .call(yAxisGen)
-                     .style("transform", `translateY(${dimensions.height-dimensions.margin.bottom}px)`)
-
-
-
-
-
-
-
-
-
-
-
-=======
  var yScale = d3.scaleLinear()
         .domain([0,25])
         .range([dimensions.height-dimensions.margin.bottom, dimensions.margin.top])
@@ -85,11 +46,10 @@ var dots = svg.append("g")
                       .call(xAxisGen)
                       .style("transform", `translateY(${dimensions.height-dimensions.margin.bottom}px)`)
 
-
+                      
   var yAxisGen =  d3.axisLeft().scale(yScale)
   var yAxis = svg.append("g")
                 .call(yAxisGen)
                 .style("transform", `translateX(${dimensions.margin.left}px)`)
->>>>>>> d31967c96f6f61dd95e85ec284a5760be92eacd5
 
 })

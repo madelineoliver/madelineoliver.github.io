@@ -1,8 +1,9 @@
+
 d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     console.log(dataset)
 
     var dimensions = {
-        width: 300,
+        width: 500,
         height: 400,
         margin:{
             top: 150,
@@ -31,21 +32,22 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
             .padding([0.2])
 
     var yScale = d3.scaleLinear()
-             //
-            .domain([1, d3.max(dataset, function(d) { return d.Ranking;})])
+             //.domain([1, d3.max(dataset, function(d) { return d.Ranking;})])
+            .domain([0, 10])
             .range([dimensions.boundedHeight , 0]);
+
     // Append rectangles for bar chart
-  /*svg.selectAll(".bar")
+    svg.selectAll(".bar")
         .data(dataset)
         .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function(d) { return xScale(d.Genre); })
         .attr("width", xScale.bandwidth())
         .attr("y", function(d) { return yScale(d.Ranking); })
-        .attr("height", function(d) { return dimensions.height - yScale(d.Ranking); });
-    */
+        .attr("height", function(d) { return dimensions.boundedHeight - yScale(d.Ranking); });
+    
     g.append("g")
-            .attr("transform", "translate(0," + dimensions.height + ")")
+            .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
             .call(d3.axisBottom(xScale));
 
     g.append("g")
