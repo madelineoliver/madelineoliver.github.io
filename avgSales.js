@@ -12,7 +12,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 left: 50
             }
         }
-
+        dimensions.boundedWidth = dimensions.width - dimensions.margin.right - dimensions.margin.left
+        dimensions.boundedHeight = dimensions.height - dimensions.margin.top - dimensions.margin.bottom
+        
         var svg = d3.select("#vis2")
             .style("width", dimensions.width)
             .style("height", dimensions.height)
@@ -49,7 +51,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         svg.append("g")		
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + dimensions.height + ")")
+            .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
             .call(xScale);
      
         // Add the Y Axis
