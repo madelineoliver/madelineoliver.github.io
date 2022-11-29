@@ -13,10 +13,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
     })
 
-  console.log(dataset)
 
-  var xAccessor = d => d.Year
-  var yAccessor = d => d.Tracks
+  //array of objects grouped by year
+  var year_array = d3.group(dataset, d => d.Year)
+  var avg_tracks = d3.rollup(dataset, v => d3.mean(v, d => d.Tracks), d=>d.Year)
+
+  var xAccessor = d => d.year
+  var yAccessor = avg_tracks
 
 
 
@@ -31,7 +34,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .range([dimensions.margin.left ,dimensions.width - dimensions.margin.right])
 
  var yScale = d3.scaleLinear()
-        .domain([d3.extent(dataset,yAccessor)])
+        .domain(d3.extent(dataset,yAccessor))
         .range([dimensions.height-dimensions.margin.bottom, dimensions.margin.top])
 
 var dots = svg.append("g")
@@ -49,12 +52,9 @@ var dots = svg.append("g")
                       .call(xAxisGen)
                       .style("transform", `translateY(${dimensions.height-dimensions.margin.bottom}px)`)
 
-                      
+
   var yAxisGen =  d3.axisLeft().scale(yScale)
   var yAxis = svg.append("g")
                 .call(yAxisGen)
                 .style("transform", `translateX(${dimensions.margin.left}px)`)
-
-
-
 })
