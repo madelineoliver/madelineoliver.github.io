@@ -48,16 +48,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("width", dimensions.width)
                 .style("height", dimensions.height)
 
-         var g = svg.append("g")
+        var g = svg.append("g")
                 .attr("transform", "translate(" + dimensions.margin.left+ "," + dimensions.margin.top +  ")");
 
         var bounds = svg.append("g")
                 .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
+                
 
         var xScale = d3.scaleBand()
                 .domain(dataset.map(function(d) { return d.Genre; }))
                 .range([0,dimensions.boundedWidth])
                 .padding([0.2])
+                
 
         var yScale = d3.scaleLinear()
                 .domain([0, 10])

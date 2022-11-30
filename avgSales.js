@@ -3,10 +3,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         console.log(dataset)
 
         var dimensions = {
-            width: 400,
-            height: 400,
+            width: 700,
+            height: 300,
             margin:{
-                top: 10,
+                top: 100,
                 bottom: 50,
                 right: 10,
                 left: 50
@@ -18,28 +18,33 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var svg = d3.select("#vis2")
             .style("width", dimensions.width)
             .style("height", dimensions.height)
-            .append("g")
-            .attr("transform",
-                  "translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
+                   
+        var g = svg.append("g")
+                .attr("transform", "translate(" + dimensions.margin.left+ "," + dimensions.margin.top +  ")");      
 
-        
         var xScale = d3.scaleBand()
-            .domain(d3.extent(dataset, function(d) { return d.Year; }))
-            .range([0,dimensions.boundedWidth])
-            .padding([0.2])
-        
+                .domain(dataset.map(function(d) { return d.Year; }))
+                .range([0,dimensions.boundedWidth])
+                .padding([0.2])
+
         var yScale = d3.scaleLinear()
-            .domain([1, d3.max(dataset, function(d) { return d.WorldwideSales; })])
-            .range([dimensions.boundedHeight ,0]);
-       
-        // Define the axes
-       /* var	xAxis = d3.svg.axis().scale(x)
-            .orient("bottom").ticks(5);
+                .domain([0, d3.max(dataset, function(d) { return +d.WorldwideSales})])
+                .range([dimensions.boundedHeight , 0]);
+
+        g.append("g")
+                .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
+                .call(d3.axisBottom(xScale))
+                .selectAll("text")  
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-65)");
+
+                ''
+        g.append("g")
+                .call(d3.axisLeft(yScale));
         
-        var	yAxis = d3.svg.axis().scale(y)
-            .orient("left").ticks(5);*/
-        
-        var	valueline = d3.line()
+       /* var	valueline = d3.line()
             .x(function(d) { return xScale(d.Year); })
             .y(function(d) { return yScale(d.WorldwideSales); });
 
@@ -47,16 +52,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         // Add the valueline path.
         svg.append("path")	
             .attr("class", "line")
-            .attr("d", valueline(dataset));
+            .attr("d", valueline(dataset));*/
 
-        svg.append("g")		
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
-            .call(xScale);
-     
-        // Add the Y Axis
-        svg.append("g")		
-            .attr("class", "y axis")
-            .call(yScale);
-})
+    })
     
