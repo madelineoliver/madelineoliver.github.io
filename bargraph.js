@@ -68,17 +68,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         
         // function to update bars
         var updateBars = function(data){
+                console.log(data)
                 var bars = bounds
-                        .selectAll(".bar")
+                        .selectAll(".bars")
                         .data(data)
                         .enter()
                         .append("rect")
                         .attr("class", "bar")
-                        .attr("x", function(d) { return xScale(d); })
+                        .attr("x", function(d, i) { return xScale(d.key); })
                         .attr("width", xScale.bandwidth())
-                        .attr("y", function(d) { return yScale(d); })
-                        .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d[i]); })
-                        .style("fill", function(d,i){return myColor(i) });
+                        .attr("y", function(d, i) { return yScale(d.key); })
+                        .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
+                        .style("fill", function(d,i){return myColor(i)});
                 
                 g.append("g")
                         .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
@@ -86,13 +87,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 g.append("g")
                         .call(d3.axisLeft(yScale));
+                
 
                 bars.transition()
-                        .attr('x', function(d) { return xScale(d); })
+                        .attr('x', function(d) { return xScale(d.key); })
                         .attr('width', xScale.bandwidth)
-                        .attr('y', function(d, i) { return yScale(d); })
-                        .attr('height', function(d){return dimensions.boundedHeight - yScale(d)})
-                        .style("fill", function(d,i){return myColor(i) });
+                        .attr('y', function(d, i) { return yScale(d.value.length); })
+                        .attr('height', function(d){return dimensions.boundedHeight - yScale(d.value.length)})
+                        .style("fill", function(d,i){return myColor(i)});
 
                 bars.exit().remove();
         }
@@ -101,19 +103,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var dropdownChange = function(){
                 var newYear = d3.select(this).property('value')  
                 var drop = newData[newYear]
-                var Genr = []
-                for(var i=0; i < drop.length; i++){
-                        Genr.push(drop[i].key)
-                        if(drop[i].value.length > 1){
-                        var len = drop[i].value.length;
-                                while(len > 1){
-                                        Genr.push(drop[i].key) 
-                                        len =  len - 1 
-                                }
-                        }
-                }
-                                     
-                updateBars(Genr)
+                //console.log(drop)
+                updateBars(drop)
         }
          
         var dropdown = d3.select('#dropdown')
@@ -127,23 +118,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("Year",function (d,i) { return keys[i];})
                 .text(function (d, i) { return keys[i];})   
                 
-        //error happening bc of this
-        var init = newData[1990]
-        var initialData = []
-                for(var i=0; i < init.length; i++){
-                        initialData.push(init[i].key)  
-                        if(init[i].value.length > 1)
-                        var len = init[i].value.length;
-                                while(len > 1){
-                                        initialData.push(init[i].key) 
-                                        len =  len - 1 
-                                }
+        //initial data
+        var init = newData[1990]              
+        updateBars(init)
+               
 
-                }                      
-        //updateBars(initialData)
-
-
-        console.log(initialData)
+        //console.log(initialData)
     
 
 
