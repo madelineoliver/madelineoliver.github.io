@@ -3,8 +3,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     var size = d3.min([window.innerWidth*0.9, window.innerHeight*0.9])
 
     var dimensions = ({
-            width: size,
-            height: size / 3,
+            width: 1400,
+            height: 500,
             margin: {
             top: 10,
             right: 10,
@@ -13,37 +13,66 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
     })
 
-
-  //array of objects grouped by year
-  var year_array = d3.group(dataset, d => d.Year)
-  var avg_tracks = d3.rollup(dataset, v => d3.mean(v, d => d.Tracks), d=>d.Year)
-
-  var xAccessor = d => d.year
-  var yAccessor = avg_tracks
+    //array of objects grouped by year
+    var year_map = d3.groups(dataset, d => d.Year)
+    var data_map = d3.rollup(dataset, v => d3.mean(v, d => d.Tracks), d=>d.Year)
 
 
+
+    //creating an array from the key value pairs
+    let array_data = Array.from(data_map)
+
+    console.log(array_data)
+
+    //formatting the array
+     var new_array = sorted_data.map(function(d) {
+      return {
+
+        Year: +d[0],
+        Tracks: d[1]
+      };
+    });
+
+
+    //sorting years ascending
+    new_array.sort((a,b) => {
+      return +a.Year - +b.Year;
+    });
+
+    //console.log(new_array)
+
+    let usethis = Array.from(new_array)
+
+  //console.log(usethis)
 
 
   var svg = d3.select("#vis1")
         .style("width", dimensions.width)
         .style("height", dimensions.height)
+      //  .append("g")
         .attr("class", "line-background")
+        .attr("transform",
+              "translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
 
-  var xScale = d3.scaleLinear()
-        .domain(d3.extent(dataset, xAccessor))
+  var xScale = d3.scaleBand()
+        .domain(d3.map(new_array, d => d.Year))
         .range([dimensions.margin.left ,dimensions.width - dimensions.margin.right])
 
- var yScale = d3.scaleLinear()
-        .domain(d3.extent(dataset,yAccessor))
+  var yScale = d3.scaleLinear()
+        .domain([0, 20])
         .range([dimensions.height-dimensions.margin.bottom, dimensions.margin.top])
 
-var dots = svg.append("g")
+  var dots = svg.append("g")
           .selectAll("circle")
-          .data(dataset)
+          .data(new_array)
           .enter()
           .append("circle")
-          .attr("cx", d => xScale(xAccessor(d)))
-          .attr("cy", d => yScale(yAccessor(d)))
+          .attr("cx", function (d){
+            return xScale(d[1]);
+          })
+          .attr("cy", function (d){
+            return xScale(d[0]);
+          })
           .attr("r", 3)
           .attr("fill", "black")
 
