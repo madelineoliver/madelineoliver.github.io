@@ -3,7 +3,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     var size = d3.min([window.innerWidth*0.9, window.innerHeight*0.9])
 
     var dimensions = ({
-            width: 1400,
+            width: 1500,
             height: 500,
             margin: {
             top: 10,
@@ -14,67 +14,63 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     })
 
     //array of objects grouped by year
-    var year_map = d3.groups(dataset, d => d.Year)
-    var data_map = d3.rollup(dataset, v => d3.mean(v, d => d.Tracks), d=>d.Year)
+    var year_map = d3.groups(dataset, d => +d.Year)
+    var avg_map = d3.rollup(dataset, v => d3.mean(v, d => +d.Tracks), d=>+d.Year)
+
+    console.log(avg_map)
 
 
+    //creating array
+    let avg_array = Array.from(avg_map)
 
-    //creating an array from the key value pairs
-    let array_data = Array.from(data_map)
-
-    console.log(array_data)
-
-    //formatting the array
-     var new_array = sorted_data.map(function(d) {
-      return {
-
-        Year: +d[0],
-        Tracks: d[1]
-      };
-    });
-
+    console.log(avg_array)
 
     //sorting years ascending
-    new_array.sort((a,b) => {
-      return +a.Year - +b.Year;
-    });
+    sorted_array = avg_array.sort((a,b) => d3.ascending(a[0], b[0]))
 
-    //console.log(new_array)
-
-    let usethis = Array.from(new_array)
-
-  //console.log(usethis)
+    console.log(sorted_array)
 
 
   var svg = d3.select("#vis1")
         .style("width", dimensions.width)
         .style("height", dimensions.height)
-      //  .append("g")
         .attr("class", "line-background")
         .attr("transform",
               "translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
 
   var xScale = d3.scaleBand()
-        .domain(d3.map(new_array, d => d.Year))
+        .domain(d3.map(sorted_array, d => d[0]))
         .range([dimensions.margin.left ,dimensions.width - dimensions.margin.right])
+        .padding([1])
 
   var yScale = d3.scaleLinear()
-        .domain([0, 20])
+        .domain(d3.extent(sorted_array, d => d[1]))
         .range([dimensions.height-dimensions.margin.bottom, dimensions.margin.top])
 
+  svg.append("path")
+      .attr("d", )
+
+
+  //adding scatterplot
   var dots = svg.append("g")
           .selectAll("circle")
-          .data(new_array)
+          .data(sorted_array)
           .enter()
           .append("circle")
-          .attr("cx", function (d){
-            return xScale(d[1]);
+          .on("mouseover", function(){
+            d3.select(this)
+            .attr("fill", "pink")
           })
-          .attr("cy", function (d){
-            return xScale(d[0]);
+          .on("mouseout", function(){
+            d3.select(this)
+            .attr("fill", "black")
           })
-          .attr("r", 3)
+          .attr("cx", d => xScale(d[0]))
+          .attr("cy", d => yScale( d[1]))
+          .attr("r", 6)
           .attr("fill", "black")
+
+
 
   var xAxisGen = d3.axisBottom().scale(xScale)
         var xAxis = svg.append("g")
