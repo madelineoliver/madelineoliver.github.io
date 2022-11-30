@@ -70,12 +70,26 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
           .attr("r", 6)
           .attr("fill", "black")
 
+          // svg.append("g")
+          // //  .attr("class", "x axis")
+          //   .attr("transform", "translate(0," + height + ")")
+          //   .call(xAxis)
+          //   .selectAll("text")
+          //   .style("text-anchor", "end")
+          //   .attr("dx", "-.8em")
+          //   .attr("dy", ".15em")
+          //   .attr("transform", "rotate(-65)");
 
 
   var xAxisGen = d3.axisBottom().scale(xScale)
         var xAxis = svg.append("g")
                       .call(xAxisGen)
                       .style("transform", `translateY(${dimensions.height-dimensions.margin.bottom}px)`)
+                      .selectAll("text")
+                      .style("text-anchor", "end")
+                      .attr("dx", "-.8em")
+                      .attr("dy", ".15em")
+                      .attr("transform", "rotate(-65)" );
 
 
   var yAxisGen =  d3.axisLeft().scale(yScale)
