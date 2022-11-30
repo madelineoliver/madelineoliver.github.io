@@ -4,12 +4,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         var dimensions = {
                 width: 500,
-                height: 400,
+                height: 200,
                 margin:{
-                top: 150,
-                bottom: 100,
+                top: 30,
+                bottom: 50,
                 right: 20,
-                left: 100
+                left: 50
                 }
         }
      
@@ -44,76 +44,69 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
         console.log(newData)
       
-
         var svg = d3.select("#vis3")
                 .style("width", dimensions.width)
                 .style("height", dimensions.height)
 
-         var g = svg.append("g")
+        var g = svg.append("g")
                 .attr("transform", "translate(" + dimensions.margin.left+ "," + dimensions.margin.top +  ")");
 
         var bounds = svg.append("g")
                 .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
+                
 
         var xScale = d3.scaleBand()
                 .domain(dataset.map(function(d) { return d.Genre; }))
                 .range([0,dimensions.boundedWidth])
                 .padding([0.2])
+                
 
         var yScale = d3.scaleLinear()
                 .domain([0, 10])
                 .range([dimensions.boundedHeight , 0]);
 
         var myColor = d3.scaleOrdinal(["yellow", "steelblue", "green", "purple", " #E1AD9D","orange","red", "blue", "darkgreen"])
-        
+
+        g.append("g")
+                .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
+                .call(d3.axisBottom(xScale));
+
+        g.append("g")
+                .call(d3.axisLeft(yScale));
+
         // function to update bars
         var updateBars = function(data){
+                console.log(data)
                 var bars = bounds
-                        .selectAll(".bar")
+                        .selectAll("bars")
                         .data(data)
                         .enter()
                         .append("rect")
                         .attr("class", "bar")
-                        .attr("x", function(d) { return xScale(d); })
+                        .attr("x", function(d, i) { return xScale(d.key); })
                         .attr("width", xScale.bandwidth())
-                        .attr("y", function(d) { return yScale(d); })
-                        .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d[i]); })
-                        .style("fill", function(d,i){return myColor(i) });
+                        .attr("y", function(d, i) { return yScale(d.key); })
+                        .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
+                        .style("fill", function(d,i){return myColor(i)});        
                 
-                g.append("g")
-                        .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
-                        .call(d3.axisBottom(xScale));
-
-                g.append("g")
-                        .call(d3.axisLeft(yScale));
-
                 bars.transition()
-                        .attr('x', function(d) { return xScale(d); })
+                        .attr('x', function(d) { return xScale(d.key); })
                         .attr('width', xScale.bandwidth)
-                        .attr('y', function(d, i) { return yScale(d); })
-                        .attr('height', function(d){return dimensions.boundedHeight - yScale(d)})
-                        .style("fill", function(d,i){return myColor(i) });
+                        .attr('y', function(d, i) { return yScale(d.value.length); })
+                        .attr('height', function(d){return dimensions.boundedHeight - yScale(d.value.length)})
+                        .style("fill", function(d,i){return myColor(i)});
 
-                bars.exit().remove();
+                console.log(bars.exit().remove())
+                
+                bars.exit().remove()
         }
   
         //create drop down and update based on dropdown selection
         var dropdownChange = function(){
                 var newYear = d3.select(this).property('value')  
                 var drop = newData[newYear]
-                var Genr = []
-                for(var i=0; i < drop.length; i++){
-                        Genr.push(drop[i].key)
-                        if(drop[i].value.length > 1){
-                        var len = drop[i].value.length;
-                                while(len > 1){
-                                        Genr.push(drop[i].key) 
-                                        len =  len - 1 
-                                }
-                        }
-                }
-                                     
-                updateBars(Genr)
+                //console.log(drop)
+                updateBars(drop)
         }
          
         var dropdown = d3.select('#dropdown')
@@ -127,24 +120,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("Year",function (d,i) { return keys[i];})
                 .text(function (d, i) { return keys[i];})   
                 
-        //error happening bc of this
-        var init = newData[1990]
-        var initialData = []
-                for(var i=0; i < init.length; i++){
-                        initialData.push(init[i].key)  
-                        if(init[i].value.length > 1)
-                        var len = init[i].value.length;
-                                while(len > 1){
-                                        initialData.push(init[i].key) 
-                                        len =  len - 1 
-                                }
-
-                }                      
-        //updateBars(initialData)
-
-
-        console.log(initialData)
-    
-
+        //initial data
+        var init = newData[1990]              
+        updateBars(init)
+               
+        //console.log(initialData)
 
 })
