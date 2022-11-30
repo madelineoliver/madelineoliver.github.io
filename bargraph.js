@@ -4,12 +4,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         var dimensions = {
                 width: 500,
-                height: 400,
+                height: 200,
                 margin:{
-                top: 150,
-                bottom: 100,
+                top: 30,
+                bottom: 50,
                 right: 20,
-                left: 100
+                left: 50
                 }
         }
      
@@ -44,7 +44,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
         console.log(newData)
       
-
         var svg = d3.select("#vis3")
                 .style("width", dimensions.width)
                 .style("height", dimensions.height)
@@ -65,12 +64,19 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .range([dimensions.boundedHeight , 0]);
 
         var myColor = d3.scaleOrdinal(["yellow", "steelblue", "green", "purple", " #E1AD9D","orange","red", "blue", "darkgreen"])
-        
+
+        g.append("g")
+                .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
+                .call(d3.axisBottom(xScale));
+
+        g.append("g")
+                .call(d3.axisLeft(yScale));
+
         // function to update bars
         var updateBars = function(data){
                 console.log(data)
                 var bars = bounds
-                        .selectAll(".bars")
+                        .selectAll("bars")
                         .data(data)
                         .enter()
                         .append("rect")
@@ -79,16 +85,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d, i) { return yScale(d.key); })
                         .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
-                        .style("fill", function(d,i){return myColor(i)});
+                        .style("fill", function(d,i){return myColor(i)});        
                 
-                g.append("g")
-                        .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
-                        .call(d3.axisBottom(xScale));
-
-                g.append("g")
-                        .call(d3.axisLeft(yScale));
-                
-
                 bars.transition()
                         .attr('x', function(d) { return xScale(d.key); })
                         .attr('width', xScale.bandwidth)
@@ -96,7 +94,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr('height', function(d){return dimensions.boundedHeight - yScale(d.value.length)})
                         .style("fill", function(d,i){return myColor(i)});
 
-                bars.exit().remove();
+                console.log(bars.exit().remove())
+                
+                bars.exit().remove()
         }
   
         //create drop down and update based on dropdown selection
@@ -122,9 +122,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var init = newData[1990]              
         updateBars(init)
                
-
         //console.log(initialData)
-    
-
 
 })
