@@ -47,6 +47,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .domain([10, d3.max(sorted_array, d => d[1])])
         //.domain(d3.extent(sorted_array, d => d[1]))
         .range([dimensions.height-dimensions.margin.bottom, dimensions.margin.top])
+ //graph labels
+  svg.append("text")
+      .attr("transform", "translate(" + (dimensions.width/2) + " ," + (dimensions.height-5) + ")")
+      .style("text-anchor", "middle")
+      .text("Year");
+
+  svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -(dimensions.height/2))
+      .attr("y",15)
+      .style("text-anchor", "middle")
+      .text("Avg. # of Tracks (per Year)");
 
 
   svg.append("path")

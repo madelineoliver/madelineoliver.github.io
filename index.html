@@ -2,38 +2,54 @@
 <html>
   <head>
     <meta charset="UTF-8"/>
-    <title>Visualization Prototype</title>
+    <title> Album Trends (1990-2021)</title>
     <link href="StyleSheet.css" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
 
-    <h1>Visualization Prototype</h1>
+    <h1>Album Trends (1990-2021)</h1>
 
     <div>
-      <svg id="vis1"></svg>
+      <svg id="vis1" style ="position:absolute;
+        left: 52%;
+        top: 40px;
+        background-color: rgba(255, 255, 255, 0.5);"></svg>
       <script src="lineGraph.js"></script>
     </div>
 
     <div>
       <svg id="vis2" style ="position:absolute;
-      left: 42%;
-      top: 340px;
-      background-color: rgba(255, 255, 255, 0.5);"></svg>
+        left: 44%;
+        top: 400px;
+        background-color: rgba(255, 255, 255, 0.5);"></svg>
       <script src= "avgSales.js"></script>
+    </div>
+
+    <div>
+      <select id="dropdown3" style ="position:absolute;
+        left: 1%;
+        top: 430px;">
+      </select>
+      <svg id="vis3" style ="position:absolute;
+          left: 1%;
+          top: 450px;
+          background-color: rgba(255, 255, 255, 0.5);">
+      </svg>
+      <script type= "module" src="bargraph.js"  ></script>
     </div>
 
     <div>
       <select id="dropdown" style ="position:absolute;
         left: 1%;
-        top: 360px;">
+        top: 50px;">
       </select>
-      <svg id="vis3" style ="position:absolute;
-          left: 1%;
-          top: 380px;
+      <svg id="vis4" style ="position:absolute;
+          left:60px;
+          top: 50px;
           background-color: rgba(255, 255, 255, 0.5);">
       </svg>
-      <script type= "module" src="bargraph.js"  ></script>
+      <script src="rankingAndNames.js"  ></script>
     </div>
 
   </body>
