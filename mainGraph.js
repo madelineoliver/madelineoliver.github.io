@@ -16,25 +16,42 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     //sort data by year in ascending order
     dataset.sort(function(a,b) { return +a.Year - +b.Year })
 
-    var allGroup = Array.from(d3.group(dataset, d => d.Year), ([key, value]) => ({key, value}), )
+    var year_map = d3.groups(dataset, d => +d.Year)
 
-    //get years for dropdown
+    let year_array = Array.from(year_map)
+
+
+    //console.log(year_map)
+
     var keys = []
-    for(var i in allGroup) 
-        keys.push(allGroup[i].key)
+    for(var i in year_array)
+           keys.push(year_array[i].key)
 
-    //get Artist for Each year
-    var Art = []
-    for(var i in allGroup) 
-        Art.push(Array.from(d3.group( allGroup[i].value, d => d.WorldwideSales ), ([key, value]) => ({key, value}))) 
-    //console.log(Art)
+    console.log(keys)
 
-    //combine years and genre into new data
-    var newData ={}
-    for (var i=0; i < keys.length; i++) {
-        newData[keys[i]] = Art[i];
-    }
-    //console.log(newData)
+
+
+    // var allGroup = Array.from(d3.group(dataset, d => d.Year), ([key, value]) => ({key, value}), )
+    //
+    // console.log(allGroup)
+    //
+    // //get years for dropdown
+    // var keys = []
+    // for(var i in allGroup)
+    //     keys.push(allGroup[i].key)
+    //
+    // //get Artist for Each year
+    // var Art = []
+    // for(var i in allGroup)
+    //     Art.push(Array.from(d3.group( allGroup[i].value, d => d.Ranking ), ([key, value]) => ({key, value})))
+    // console.log(Art)
+    //
+    // //combine years and genre into new data
+    // var newData ={}
+    // for (var i=0; i < keys.length; i++) {
+    //     newData[keys[i]] = Art[i];
+    // }
+    // //console.log(newData)
 
     var svg = d3.select("#vis4")
         .style("width", dimensions.width)
@@ -46,7 +63,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .domain(dataset.map(function(d) { return d.WorldwideSales; }))
         .range([0,dimensions.boundedWidth])
         .padding([0.2])
-              
+
 
     var yScale = d3.scaleLinear()
         .domain([0, 10])
@@ -55,7 +72,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     svg.append("g")
         .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
         .call(d3.axisBottom(xScale))
-        .selectAll("text")  
+        .selectAll("text")
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
@@ -64,7 +81,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     svg.append("g")
         .call(d3.axisLeft(yScale));
 
-     
+
  //graph labels
     svg.append("text")
         .attr("transform", "translate(" + (dimensions.width/2) + " ," + (dimensions.height-5) + ")")
@@ -78,15 +95,17 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .style("text-anchor", "middle")
         .text("space");
 
-    
+
+
+
 /*
     var dropdownChange = function(){
-        var newYear = d3.select(this).property('value')  
+        var newYear = d3.select(this).property('value')
         var drop = newData[newYear]
         //console.log(drop)
         updateBars(drop)
-    }       
- 
+    }
+
     var dropdown = d3.select('#dropdown2')
         //  .insert("select", "svg")
             .on("change", dropdownChange);
@@ -94,11 +113,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     dropdown.selectAll('myOptions')
             .data(allGroup)
             .enter()
-            .append("option")     
+            .append("option")
             .attr("Year",function (d,i) { return keys[i];})
             .text(function (d, i) { return keys[i];})   */
-            
-            
 
-    
+
+
+
 })
