@@ -44,12 +44,23 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .padding([1])
 
   var yScale = d3.scaleLinear()
-        .domain(d3.extent(sorted_array, d => d[1]))
+        .domain([10, d3.max(sorted_array, d => d[1])])
+        //.domain(d3.extent(sorted_array, d => d[1]))
         .range([dimensions.height-dimensions.margin.bottom, dimensions.margin.top])
+
 
   svg.append("path")
       .attr("d", )
 
+  svg.append("path")
+          .datum(avg_array)
+          .attr("fill", "none")
+          .attr("stroke", "#69b3a2")
+          .attr("stroke-width", 4)
+          .attr("d", d3.line()
+              .x(function(d) {return xScale(d[0]) })
+              .y(function (d) { return yScale(d[1])})
+          )
 
   //adding scatterplot
   var dots = svg.append("g")
@@ -69,16 +80,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
           .attr("cy", d => yScale( d[1]))
           .attr("r", 6)
           .attr("fill", "black")
-
-          // svg.append("g")
-          // //  .attr("class", "x axis")
-          //   .attr("transform", "translate(0," + height + ")")
-          //   .call(xAxis)
-          //   .selectAll("text")
-          //   .style("text-anchor", "end")
-          //   .attr("dx", "-.8em")
-          //   .attr("dy", ".15em")
-          //   .attr("transform", "rotate(-65)");
 
 
   var xAxisGen = d3.axisBottom().scale(xScale)
