@@ -72,6 +72,19 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         g.append("g")
                 .call(d3.axisLeft(yScale));
+        
+        //graph labels
+        svg.append("text")
+                .attr("transform", "translate(" + (dimensions.boundedWidth/2) + " ," + (dimensions.boundedHeight+70) + ")")
+                .style("text-anchor", "middle")
+                .text("Genre");
+
+        svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -(dimensions.boundedHeight-20))
+                .attr("y", 15)
+                .style("text-anchor", "middle")
+                .text("# of Genres (per Year)");
 
         // function to update bars
         var updateBars = function(data){

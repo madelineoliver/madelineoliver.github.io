@@ -7,9 +7,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
             height: 240,
             margin:{
                 top: 50,
-                bottom: 50,
+                bottom:55,
                 right: 50,
-                left: 80
+                left: 110
             }
         }
         dimensions.boundedWidth = dimensions.width - dimensions.margin.right - dimensions.margin.left
@@ -22,14 +22,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
        
          //creating array
         var avg_array = Array.from(avg_sales)
-        console.log(avg_array)
 
         var svg = d3.select("#vis2")
                 .style("width", dimensions.width)
                 .style("height", dimensions.height)
                 .append("g")
-                .attr("transform", "translate(" + dimensions.margin.left+ "," + dimensions.margin.top +  ")");      
+                .attr("transform", "translate(" + dimensions.margin.left+ "," + dimensions.margin.top +  ")");   
 
+        //x and y scales
         var xScale = d3.scaleBand()
                 .domain(avg_array.map(function(d) { return d[0]; }))
                 .range([0,dimensions.boundedWidth])
@@ -50,18 +50,33 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
       
         svg.append("g")
                 .call(d3.axisLeft(yScale));
+
+        //graph labels
+        svg.append("text")
+                .attr("transform", "translate(" + (dimensions.boundedWidth/2) + " ," + (dimensions.boundedHeight+50) + ")")
+                .style("text-anchor", "middle")
+                .text("Year");
+
+        svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -(dimensions.boundedHeight/2))
+                .attr("y", -80)
+                .style("text-anchor", "middle")
+                .text(" Avg. Worldwide Sales (per Year)");
+
         //lines
         svg.append("path")
                 .datum(avg_array)
                 .attr("fill", "none")
                 .attr("stroke", "#69b3a2")
-                .attr("stroke-width", 4)
+                .attr("stroke-width", 3)
                 .attr("d", d3.line()
                   .x(function(d) { return xScale(d[0]) })
                   .y(function(d) { return yScale(d[1]) })
                   )
-        //area
-        /*svg.append("path")
+
+        /*area
+        svg.append("path")
                 .datum(avg_array)
                 .attr("fill", "#69b3a2")
                 .attr("fill-opacity", .3)
@@ -69,18 +84,24 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("d", d3.area()
                         .x( function(d, i) { return xScale(d[0]); })
                         .y0(function(d, i) {return dimensions.boundedHeight - yScale(d[1]) })
-                        .y1( function(d, i) { return yScale(d[1]); }))*/
+                        .y1( function(d, i) { return yScale(d[1]); }))
+        */
         //dots
         svg.selectAll("circle")
                 .data(avg_array)
                 .enter()
                 .append("circle")
+                .on("mouseover", function(){
+                        d3.select(this)
+                        .attr("fill", "purple")
+                      })
+                .on("mouseout", function(){
+                d3.select(this)
+                .attr("fill", "red")
+                })
                 .attr("cx", d => xScale(d[0]))
                 .attr("cy", d => yScale( d[1]))
                 .attr("r", 3)
                 .attr("fill", "red")
-
-                
-
     })
     
