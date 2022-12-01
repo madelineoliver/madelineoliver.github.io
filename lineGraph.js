@@ -84,6 +84,16 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
           .attr("cy", d => yScale( d[1]))
           .attr("r", 5)
           .attr("fill", "black")
+          .on('mouseover', function(){
+            d3.select(this)
+              .duration('100')
+              .attr("r", 6);
+          })
+        .on('mouseout', function (d, i) {
+            d3.select(this).transition()
+              .duration('200')
+              .attr("r", 5);
+        });
 
 
 
