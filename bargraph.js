@@ -24,14 +24,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         //get years for dropdown
         var keys = []
-        for(var i in allGroup) 
+        for(var i in allGroup)
                keys.push(allGroup[i].key)
         //console.log(keys)
 
         //get Genres for Each year
         var genreOccur = []
-        for(var i in allGroup) 
-                genreOccur.push(Array.from(d3.group( allGroup[i].value, d => d.Genre ), ([key, value]) => ({key, value}))) 
+        for(var i in allGroup)
+                genreOccur.push(Array.from(d3.group( allGroup[i].value, d => d.Genre ), ([key, value]) => ({key, value})))
                 //genreOccur.push(Array.from(d3.group( allGroup[i].value, d => d.Genre )) )
 
         //console.log(genreOccur)
@@ -42,7 +42,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 newData[keys[i]] = genreOccur[i];
         }
         //console.log(newData)
-      
+
         var svg = d3.select("#vis3")
                 .style("width", dimensions.width)
                 .style("height", dimensions.height)
@@ -52,13 +52,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         var bounds = svg.append("g")
                 .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
-                
+
 
         var xScale = d3.scaleBand()
                 .domain(dataset.map(function(d) { return d.Genre; }))
                 .range([0,dimensions.boundedWidth])
                 .padding([0.2])
-                
+
 
         var yScale = d3.scaleLinear()
                 .domain([0, 10])
@@ -72,7 +72,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         g.append("g")
                 .call(d3.axisLeft(yScale));
-        
+
         //graph labels
         svg.append("text")
                 .attr("transform", "translate(" + (dimensions.boundedWidth/2) + " ," + (dimensions.boundedHeight+70) + ")")
@@ -99,8 +99,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d, i) { return yScale(d.key); })
                         .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
-                        .style("fill", function(d,i){return myColor(i)});        
-                
+                        .style("fill", function(d,i){return myColor(i)});
+
                 bars.transition()
                         .attr('x', function(d) { return xScale(d.key); })
                         .attr('width', xScale.bandwidth)
@@ -109,18 +109,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .style("fill", function(d,i){return myColor(i)});
 
                 //console.log(bars.exit().remove())
-                
+
                 bars.exit().remove()
         }
-  
+
         //create drop down and update based on dropdown selection
         var dropdownChange = function(){
-                var newYear = d3.select(this).property('value')  
+                var newYear = d3.select(this).property('value')
                 var drop = newData[newYear]
                 //console.log(drop)
                 updateBars(drop)
         }
-         
+
         var dropdown = d3.select('#dropdown')
               //  .insert("select", "svg")
                 .on("change", dropdownChange);
@@ -128,14 +128,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         dropdown.selectAll('myOptions')
                 .data(allGroup)
                 .enter()
-                .append("option")     
+                .append("option")
                 .attr("Year",function (d,i) { return keys[i];})
-                .text(function (d, i) { return keys[i];})   
-                
+                .text(function (d, i) { return keys[i];})
+
         //initial data
-        var init = newData[1990]              
+        var init = newData[1990]
         updateBars(init)
-               
+
         //console.log(initialData)
 
 })
