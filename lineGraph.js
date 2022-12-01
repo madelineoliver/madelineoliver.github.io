@@ -49,8 +49,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .range([dimensions.height-dimensions.margin.bottom, dimensions.margin.top])
 
 
-  svg.append("path")
-      .attr("d", )
 
   svg.append("path")
           .datum(avg_array)
@@ -62,24 +60,19 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
               .y(function (d) { return yScale(d[1])})
           )
 
+
+
   //adding scatterplot
   var dots = svg.append("g")
           .selectAll("circle")
           .data(sorted_array)
           .enter()
           .append("circle")
-          .on("mouseover", function(){
-            d3.select(this)
-            .attr("fill", "pink")
-          })
-          .on("mouseout", function(){
-            d3.select(this)
-            .attr("fill", "black")
-          })
           .attr("cx", d => xScale(d[0]))
           .attr("cy", d => yScale( d[1]))
-          .attr("r", 6)
+          .attr("r", 5)
           .attr("fill", "black")
+
 
 
   var xAxisGen = d3.axisBottom().scale(xScale)

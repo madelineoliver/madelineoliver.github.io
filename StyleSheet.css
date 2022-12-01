@@ -1,8 +1,22 @@
 body{
-  background: #cc99ff;
+  background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,0.779171043417367) 0%, rgba(85,9,121,0.8015800070028012) 2%, rgba(20,186,219,0.9906556372549019) 100%, rgba(69,46,146,1) 100%);;
 }
-
 h1{
   color: white;
   font-family: "Times New Roman", Times, serif;
+}
+
+
+
+div.tooltip {
+     position: absolute;
+     text-align: center;
+     padding: .2rem;
+     background: #313639;
+     color: #f9f9f9;
+     border: 0px;
+     border-radius: 8px;
+     pointer-events: none;
+     font-size: .7rem;
 }
