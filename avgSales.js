@@ -1,37 +1,45 @@
 
 d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
-        console.log(dataset)
+        //console.log(dataset)
 
         var dimensions = {
             width: 700,
-            height: 300,
+            height: 240,
             margin:{
-                top: 100,
+                top: 50,
                 bottom: 50,
-                right: 10,
-                left: 50
+                right: 50,
+                left: 80
             }
         }
         dimensions.boundedWidth = dimensions.width - dimensions.margin.right - dimensions.margin.left
         dimensions.boundedHeight = dimensions.height - dimensions.margin.top - dimensions.margin.bottom
-        
+
+        dataset.sort(function(a,b) { return +a.Year - +b.Year })
+
+        var year_map = d3.groups(dataset, d => +d.Year)
+        var avg_sales = d3.rollup(dataset, v => d3.mean(v, d => +d.WorldwideSales), d=>+d.Year)
+       
+         //creating array
+        var avg_array = Array.from(avg_sales)
+        console.log(avg_array)
+
         var svg = d3.select("#vis2")
-            .style("width", dimensions.width)
-            .style("height", dimensions.height)
-                   
-        var g = svg.append("g")
+                .style("width", dimensions.width)
+                .style("height", dimensions.height)
+                .append("g")
                 .attr("transform", "translate(" + dimensions.margin.left+ "," + dimensions.margin.top +  ")");      
 
         var xScale = d3.scaleBand()
-                .domain(dataset.map(function(d) { return d.Year; }))
+                .domain(avg_array.map(function(d) { return d[0]; }))
                 .range([0,dimensions.boundedWidth])
                 .padding([0.2])
 
         var yScale = d3.scaleLinear()
-                .domain([0, d3.max(dataset, function(d) { return +d.WorldwideSales})])
+                .domain([0, d3.max(avg_array, function(d) { return +d[1]})])
                 .range([dimensions.boundedHeight , 0]);
 
-        g.append("g")
+        svg.append("g")
                 .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
                 .call(d3.axisBottom(xScale))
                 .selectAll("text")  
@@ -39,20 +47,40 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("dx", "-.8em")
                 .attr("dy", ".15em")
                 .attr("transform", "rotate(-65)");
-
-                ''
-        g.append("g")
+      
+        svg.append("g")
                 .call(d3.axisLeft(yScale));
-        
-       /* var	valueline = d3.line()
-            .x(function(d) { return xScale(d.Year); })
-            .y(function(d) { return yScale(d.WorldwideSales); });
+        //lines
+        svg.append("path")
+                .datum(avg_array)
+                .attr("fill", "none")
+                .attr("stroke", "#69b3a2")
+                .attr("stroke-width", 4)
+                .attr("d", d3.line()
+                  .x(function(d) { return xScale(d[0]) })
+                  .y(function(d) { return yScale(d[1]) })
+                  )
+        //area
+        /*svg.append("path")
+                .datum(avg_array)
+                .attr("fill", "#69b3a2")
+                .attr("fill-opacity", .3)
+                .attr("stroke", "none")
+                .attr("d", d3.area()
+                        .x( function(d, i) { return xScale(d[0]); })
+                        .y0(function(d, i) {return dimensions.boundedHeight - yScale(d[1]) })
+                        .y1( function(d, i) { return yScale(d[1]); }))*/
+        //dots
+        svg.selectAll("circle")
+                .data(avg_array)
+                .enter()
+                .append("circle")
+                .attr("cx", d => xScale(d[0]))
+                .attr("cy", d => yScale( d[1]))
+                .attr("r", 3)
+                .attr("fill", "red")
 
-        
-        // Add the valueline path.
-        svg.append("path")	
-            .attr("class", "line")
-            .attr("d", valueline(dataset));*/
+                
 
     })
     
