@@ -23,9 +23,16 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 newData[keys[i]] = genreOccur[i];
         }
 
-        var avg_sales = d3.rollup(dataset, v => d3.mean(v, d => +d.WorldwideSales), d=>+d.Year)
-        //creating array
-        var avg_array = Array.from(avg_sales)
+        /**********data for avg wws graph************/
+                var avg_sales = d3.rollup(dataset, v => d3.mean(v, d => +d.WorldwideSales), d=>+d.Year)
+                //creating array
+                var avg_array = Array.from(avg_sales)
+
+        /*********data for avg track graph**********/
+                //array of objects grouped by year
+                var avg_map = d3.rollup(dataset, v => d3.mean(v, d => +d.Tracks), d=>+d.Year)
+                //creating array
+                let avg_array2 = Array.from(avg_map)
 
         /**********************************************code for Genre bar graph*******************************************************************************/
         
@@ -175,6 +182,21 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("y", -80)
                         .style("text-anchor", "middle")
                         .text(" Avg. Worldwide Sales (per Year)");
+
+                const tooltip = d3.select("body")
+                        .append("div")
+                        .attr("class","d3-tooltip")
+                        .style("position", "absolute")
+                        .style("z-index", "10")
+                        .style("visibility", "hidden")
+                        .style("width", "100px")
+                        .style("padding", "10px")
+                        .style("background", "purple")
+                        .style("border-radius", "5px")
+                        .style("top", "62%")
+                        .style("left", "87%")
+                        .style("color", "#fff")
+                        .text("a simple tooltip");
                 
                 //lines
                 svg2.append("path")
@@ -191,11 +213,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .data(avg_array)
                         .enter()
                         .append("circle")
-                        .on("mouseover", function(){
+                        .on("mouseover", function(d){
+                                tooltip.text("Year: " + d[0] + "  Avg. Sales " + d[1]).style("visibility", "visible");
+
                                 d3.select(this)
                                 .attr("fill", "purple")
                         })
-                        .on("mouseout", function(){
+                        .on("mouseout", function(d){
+                        tooltip.html(``).style("visibility", "hidden");
                         d3.select(this)
                         .attr("fill", "red")
                         })
@@ -204,8 +229,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("r", 3)
                         .attr("fill", "red") 
                 highlightData(dots, data, xScale, yScale)
-
-
         }
 
         function highlightData(dots,data, xScale, yScale){
@@ -236,43 +259,53 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         function drawGraph3(dimensions3, data){
                 dimensions3.boundedWidth = dimensions3.width - dimensions3.margin.right - dimensions3.margin.left
                 dimensions3.boundedHeight = dimensions3.height - dimensions3.margin.top - dimensions3.margin.bottom
-                //array of objects grouped by year
-                var avg_map = d3.rollup(dataset, v => d3.mean(v, d => +d.Tracks), d=>+d.Year)
 
-                //creating array
-                let avg_array2 = Array.from(avg_map)
-
-                var svg = d3.select("#vis1")
+                var svg3 = d3.select("#vis1")
                         .style("width", dimensions3.width)
                         .style("height", dimensions3.height)
                         .append("g")
-                        .attr("class", "line-background")
                         .attr("transform",
                                 "translate(" + dimensions3.margin.left + "," + dimensions3.margin.top + ")");
                 
                 var xScale = d3.scaleBand()
                         .domain(d3.map(avg_array2, d => d[0]))
                         .range([dimensions3.margin.left ,dimensions3.boundedWidth - dimensions3.margin.right])
-                        .padding([1])
+                        .padding([.2])
                 
                 var yScale = d3.scaleLinear()
                         .domain([10, d3.max(avg_array2, d => d[1])])
-                        .range([dimensions3.boundedHeight-dimensions3.margin.bottom, dimensions3.margin.top])     
+                        .range([dimensions3.boundedHeight, 0])     
 
                 //graph labels
-                svg.append("text")
+                svg3.append("text")
                         .attr("transform", "translate(" + (dimensions3.boundedWidth/2) + " ," + (dimensions3.boundedHeight +20) + ")")
                         .style("text-anchor", "middle")
                         .text("Year");
                 
-                svg.append("text")
+                svg3.append("text")
                         .attr("transform", "rotate(-90)")
                         .attr("x", -(dimensions3.boundedHeight/2))
                         .attr("y",15)
                         .style("text-anchor", "middle")
                         .text("Avg. # of Tracks (per Year)");
+
                 
-                svg.append("path")
+                const tooltip = d3.select("body")
+                        .append("div")
+                        .attr("class","d3-tooltip")
+                        .style("position", "absolute")
+                        .style("z-index", "10")
+                        .style("visibility", "hidden")
+                        .style("width", "100px")
+                        .style("padding", "10px")
+                        .style("background", "purple")
+                        .style("border-radius", "5px")
+                        .style("top", "9%")
+                        .style("left", "54%")
+                        .style("color", "#fff")
+                        .text("a simple tooltip");
+                
+                svg3.append("path")
                         .datum(avg_array2)
                         .attr("fill", "none")
                         .attr("stroke", "#69b3a2")
@@ -283,27 +316,28 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         )      
                 
                 //adding scatterplot
-                var dots = svg.selectAll("circle")
+                console.log(avg_array2[0][0])
+                var dots = svg3.selectAll("circle")
                         .data(avg_array2)
                         .enter()
                         .append("circle")
+                        .on('mouseover', function(d){
+                                tooltip.text("Year: " + d[0] + "  Avg. Tracks " + d[1]).style("visibility", "visible");
+                                d3.select(this)
+                                .attr("r", 6);
+                        })
+                        .on('mouseout', function (d, i) {
+                                tooltip.html(``).style("visibility", "hidden");
+                                d3.select(this).transition()
+                                .attr("r", 5);
+                        })
                         .attr("cx", d => xScale(d[0]))
                         .attr("cy", d => yScale( d[1]))
                         .attr("r", 5)
                         .attr("fill", "black")
-                        .on('mouseover', function(){
-                                d3.select(this)
-                                .duration('100')
-                                .attr("r", 6);
-                        })
-                        .on('mouseout', function (d, i) {
-                                d3.select(this).transition()
-                                .duration('200')
-                                .attr("r", 5);
-                        });
 
                 var xAxisGen = d3.axisBottom().scale(xScale)
-                var xAxis = svg.append("g")
+                var xAxis = svg3.append("g")
                                 .call(xAxisGen)
                                 .style("transform", `translateY(${dimensions3.boundedHeight-dimensions3.margin.bottom}px)`)
                                 .selectAll("text")
@@ -313,16 +347,25 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .attr("transform", "rotate(-65)" );
                 
                 var yAxisGen =  d3.axisLeft().scale(yScale)
-                var yAxis = svg.append("g")
+                var yAxis = svg3.append("g")
                         .call(yAxisGen)
                         .style("transform", `translateX(${dimensions3.margin.left}px)`)
 
-                highlightData(dots, data, xScale, yScale)
+               // highlightData2(dots, data, xScale, yScale)
          }
+         function highlightData2(dots,data, xScale, yScale){
+                ///dots.exit().remove()
+                dots
+                .data(avg_array2)
+                .attr("cx", xScale(avg_array2[data][0]))
+                .attr("cy", yScale( avg_array2[data][1]))
+                .attr("r", 4)
+                .attr("fill", "red")
+        }
 
 
         /*********************************create drop down and update based on dropdown selection***************************************************************************/
-        //note to update other graphs you need to go through creategraph -> drawgraph -> and the the updating/ changing function is called
+        //note to update other graphs you need to go through creategraph -> drawgraph -> and then the updating/ changing function is called
         var dropdownChange = function(){
                 var newYear = d3.select(this).property('value')
                 var drop = newData[newYear]
