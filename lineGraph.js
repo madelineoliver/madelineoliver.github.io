@@ -3,7 +3,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     var size = d3.min([window.innerWidth*0.9, window.innerHeight*0.9])
 
     var dimensions = ({
-            width: 700,
+            width: 690,
             height: 240,
             margin: {
             top: 10,
