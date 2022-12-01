@@ -1,7 +1,5 @@
 
-d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
-        //console.log(dataset)
-
+/*d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var dimensions = {
             width: 700,
             height: 240,
@@ -107,7 +105,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .data(avg_array)
                 .attr("cx", xScale(avg_array[data][0]))
                 .attr("cy", yScale( avg_array[data][1]))
-                .attr("r", 3)
+                .attr("r", 6)
                 .attr("fill", "red")
                 console.log("reached4")
         }
@@ -124,12 +122,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .on("change", dropdownChange);
                 console.log("reached1")
         
-        dropdown.selectAll('myOptions')
+      /*  dropdown.selectAll('myOptions')
                   .data(avg_array)
                   .enter()
                   .append("option")     
                   .attr("Year",function (d,i) { return keys[i];})
                   .text(function (d, i) { return keys[i];})   
                   console.log("reached2")
-    })
+    })*/
     
