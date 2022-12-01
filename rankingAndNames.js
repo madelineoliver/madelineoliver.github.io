@@ -15,6 +15,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
     //sort data by year in ascending order
     dataset.sort(function(a,b) { return +a.Year - +b.Year })
+    console.log(dataset)
 
     var groupedData = d3.rollup(dataset, d => d.Artist, d => +d.Year)
    // console.log(dataset,  d.Artist)
@@ -31,7 +32,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .domain(d3.map(newData.map(function(d) { return d[0];} )) )
         .range([0,dimensions.boundedWidth])
         .padding([0.2])
-              
+
 
     var yScale = d3.scaleLinear()
         .domain([0, 10])
@@ -40,7 +41,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     svg.append("g")
         .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
         .call(d3.axisBottom(xScale))
-        .selectAll("text")  
+        .selectAll("text")
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
@@ -49,7 +50,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     svg.append("g")
         .call(d3.axisLeft(yScale));
 
-     
+
  //graph labels
     svg.append("text")
         .attr("transform", "translate(" + (dimensions.width/2) + " ," + (dimensions.height-5) + ")")
@@ -83,12 +84,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
 /*
     var dropdownChange = function(){
-        var newYear = d3.select(this).property('value')  
+        var newYear = d3.select(this).property('value')
         var drop = newData[newYear]
         //console.log(drop)
         updateBars(drop)
-    }       
- 
+    }
+
     var dropdown = d3.select('#dropdown2')
         //  .insert("select", "svg")
             .on("change", dropdownChange);
@@ -96,11 +97,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     dropdown.selectAll('myOptions')
             .data(allGroup)
             .enter()
-            .append("option")     
+            .append("option")
             .attr("Year",function (d,i) { return keys[i];})
             .text(function (d, i) { return keys[i];})   */
-            
-            
 
-    
+
+
+
 })
