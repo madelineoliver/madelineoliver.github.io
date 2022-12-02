@@ -1,7 +1,5 @@
 
-d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
-        //console.log(dataset)
-
+/*d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var dimensions = {
             width: 700,
             height: 240,
@@ -22,6 +20,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
        
          //creating array
         var avg_array = Array.from(avg_sales)
+
+        var keys = []
+        for(var i in avg_array) 
+               keys.push(avg_array[i][0])
+
+       // console.log(keys) 
+
+       // console.log(avg_array.indexOf["1990"])
 
         var svg = d3.select("#vis2")
                 .style("width", dimensions.width)
@@ -63,7 +69,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("y", -80)
                 .style("text-anchor", "middle")
                 .text(" Avg. Worldwide Sales (per Year)");
-
+        
         //lines
         svg.append("path")
                 .datum(avg_array)
@@ -71,30 +77,19 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("stroke", "#69b3a2")
                 .attr("stroke-width", 3)
                 .attr("d", d3.line()
-                  .x(function(d) { return xScale(d[0]) })
-                  .y(function(d) { return yScale(d[1]) })
-                  )
+                .x(function(d) { return xScale(d[0]) })
+                .y(function(d) { return yScale(d[1]) })
+                )
 
-        /*area
-        svg.append("path")
-                .datum(avg_array)
-                .attr("fill", "#69b3a2")
-                .attr("fill-opacity", .3)
-                .attr("stroke", "none")
-                .attr("d", d3.area()
-                        .x( function(d, i) { return xScale(d[0]); })
-                        .y0(function(d, i) {return dimensions.boundedHeight - yScale(d[1]) })
-                        .y1( function(d, i) { return yScale(d[1]); }))
-        */
         //dots
-        svg.selectAll("circle")
+        var dots = svg.selectAll("circle")
                 .data(avg_array)
                 .enter()
                 .append("circle")
                 .on("mouseover", function(){
                         d3.select(this)
                         .attr("fill", "purple")
-                      })
+                })
                 .on("mouseout", function(){
                 d3.select(this)
                 .attr("fill", "red")
@@ -103,5 +98,36 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("cy", d => yScale( d[1]))
                 .attr("r", 3)
                 .attr("fill", "red")
-    })
+        //erases previous dots and only placed 1
+        var highlightData = function(data){
+                console.log(avg_array[data][1])
+                dots
+                .data(avg_array)
+                .attr("cx", xScale(avg_array[data][0]))
+                .attr("cy", yScale( avg_array[data][1]))
+                .attr("r", 6)
+                .attr("fill", "red")
+                console.log("reached4")
+        }
+        var dropdownChange = function(){
+                var newYear =  parseInt(d3.select(this).property('value') )
+                var index = keys.indexOf(newYear)
+                var drop = avg_array[index][0]                
+                highlightData(index)
+                console.log("reached3")
+        }
+
+        var dropdown = d3.select('#dropdown')
+        //  .insert("select", "svg")
+                .on("change", dropdownChange);
+                console.log("reached1")
+        
+      /*  dropdown.selectAll('myOptions')
+                  .data(avg_array)
+                  .enter()
+                  .append("option")     
+                  .attr("Year",function (d,i) { return keys[i];})
+                  .text(function (d, i) { return keys[i];})   
+                  console.log("reached2")
+    })*/
     
