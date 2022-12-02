@@ -16,6 +16,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
     //sort data by year in ascending order
     dataset.sort(function(a,b) { return +a.Year - +b.Year })
 
+<<<<<<< HEAD
     var allGroup = Array.from(d3.group(dataset, d => d.Year), ([key, value]) => ({key, value}), )
 
     //get years for dropdown
@@ -35,6 +36,43 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         newData[keys[i]] = Art[i];
     }
     //console.log(newData)
+=======
+    var year_map = d3.groups(dataset, d => +d.Year)
+    //console.log(year_map)
+
+
+
+  //  console.log(keys)
+
+
+
+    var year_groups = Array.from(d3.group(dataset, d => d.Year), ([key, value]) => ({key, value}), )
+    //console.log(year_groups)
+    //
+    // console.log(allGroup)
+    //
+    // //get years for dropdown
+     var keys = []
+     for(var i in year_groups)
+         keys.push(year_groups[i].key)
+      //console.log(keys)
+
+
+    console.log(year_groups)
+    //
+    // //get Artist for Each year
+    // var Art = []
+    // for(var i in allGroup)
+    //     Art.push(Array.from(d3.group( allGroup[i].value, d => d.Ranking ), ([key, value]) => ({key, value})))
+    // console.log(Art)
+    //
+    // //combine years and genre into new data
+    // var newData ={}
+    // for (var i=0; i < keys.length; i++) {
+    //     newData[keys[i]] = Art[i];
+    // }
+    // //console.log(newData)
+>>>>>>> 8eb0c3b81a8a756c2a768c90a732839140bf9408
 
     var svg = d3.select("#vis4")
         .style("width", dimensions.width)
@@ -42,8 +80,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         .append("g")
         .attr("transform","translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
 
+<<<<<<< HEAD
     var xScale = d3.scaleBand()
         .domain(dataset.map(function(d) { return d.WorldwideSalesgit ; }))
+=======
+    var xScale = d3.scaleLinear()
+        .domain(d3.extent(year_groups, d => +d.WorldWideSales))
+>>>>>>> 8eb0c3b81a8a756c2a768c90a732839140bf9408
         .range([0,dimensions.boundedWidth])
         .padding([0.2])
               
