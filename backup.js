@@ -101,14 +101,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .attr("class", "bar")
                                 .attr("x", function(d, i) { return xScale(d.key); })
                                 .attr("width", xScale.bandwidth())
-                                .attr("y", function(d, i) { return yScale(d.value.length); })
+                                .attr("y", function(d, i) { return yScale(d.key); })
                                 .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
                                 .style("fill", function(d,i){return myColor(i)});
-                       /* bars.transition()
+                        bars.transition()
                                 .ease(d3.easeLinear)
                                 .attr('y', function(d, i) { return yScale(d.value.length); })
                                 .attr('height', function(d){return dimensions.boundedHeight - yScale(d.value.length)})
-                                .style("fill", function(d,i){return myColor(i)});/*
+                                .style("fill", function(d,i){return myColor(i)});
                
 
                  function updateBars(data){      
@@ -116,11 +116,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         //yScale = d3.scaleLinear().domain([0, 10])
                         console.log(data)
                         bars = bounds
-                                .selectAll(".bars")
+                                .selectAll("bars")
                                 .data(data)
                                 .enter()
-                                .append("g")
-                                .attr("transform")
+                                .append("rect")
                         bars.transition()
                                 //.ease(d3.easeLinear)
                                 .attr("x", function(d, i) { return xScale(d.key); })
