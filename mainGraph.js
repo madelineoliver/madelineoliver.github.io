@@ -40,7 +40,7 @@ var  ranking = []
 for(var i in allGroup)
         ranking.push(Array.from(d3.group( allGroup[i].value, d => d.Ranking ), ([key, value]) => ({key, value})))
 
-//combine years and genre into new data
+//combine years and ranking into new data
 var newData ={}
 for (var i=0; i < keys.length; i++) {
         newData[keys[i]] = ranking[i];
