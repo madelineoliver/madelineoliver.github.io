@@ -40,29 +40,23 @@ var  ranking = []
 for(var i in allGroup)
         ranking.push(Array.from(d3.group( allGroup[i].value, d => d.Ranking ), ([key, value]) => ({key, value})))
 
+//console.log( allGroup[0].value, d => d.Ranking )
+//console.log(ranking)
 //combine years and ranking into new data
 var newData ={}
 for (var i=0; i < keys.length; i++) {
         newData[keys[i]] = ranking[i];
 }
+var c = newData[1990]
+console.log(c)
+//console.log(c[0].value)
 
-console.log(newData)
+//console.log(newData)
+//console.log(allGroup[0].value[0].Ranking)
 
 
-    //console.log(year_groups)
-    //
-    // //get Artist for Each year
-    // var Art = []
-    // for(var i in allGroup)
-    //     Art.push(Array.from(d3.group( allGroup[i].value, d => d.Ranking ), ([key, value]) => ({key, value})))
-    // console.log(Art)
-    //
-    // //combine years and genre into new data
-    // var newData ={}
-    // for (var i=0; i < keys.length; i++) {
-    //     newData[keys[i]] = Art[i];
-    // }
-    // //console.log(newData)
+var bounds = svg1.append("g")
+.style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
 
     var svg = d3.select("#vis4")
         .style("width", dimensions.width)
@@ -92,6 +86,22 @@ console.log(newData)
         .call(d3.axisLeft(yScale));
 
 
+        var initial = newData[1990]
+
+        var bars = bounds
+        .selectAll("bars")
+        .data(initial)
+        .enter()
+        .append("g")
+        .attr("class", "bar")
+        .attr("x", function(d, i) { return xScale(d.key); })
+        .attr("width", xScale.bandwidth())
+        .attr("y", function(d, i) { return yScale(d.value.length); })
+        .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
+        //.style("fill", function(d,i){return myColor(i)})
+        .attr("transform", function(d, i) {
+                return "translate(0," + yScale(d.Ranking) + ")";
+            });
 
 
  //graph labels
@@ -110,8 +120,10 @@ console.log(newData)
 
 
 
+    /*
 
 
+    
     var dropdownChange = function(){
         var newYear = d3.select(this).property('value')  
         var drop = newData[newYear]
@@ -130,5 +142,5 @@ console.log(newData)
             .attr("Year",function (d,i) { return keys[i];})
             .text(function (d, i) { return keys[i];})
 
-    
+    */
 })
