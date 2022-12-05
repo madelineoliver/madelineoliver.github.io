@@ -21,24 +21,76 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 for(var i in allGroup){
                         genreOccur.push(Array.from(d3.group( allGroup[i].value, d => d.Genre ), ([key, value]) => ({key, value})))
                 }
-
-                //sort genres
-                for(var i =0; i< genreOccur.length; i++){
-                 genreOccur[i].sort(function(a,b){return d3.ascending(a.key, b.key)})
-                }
-
+                 //sort genres
+               /* for(var i =0; i< genreOccur.length; i++){
+                        genreOccur[i].sort(function(a,b){return d3.ascending(a.key, b.key)})
+                       }*/
+                
+                //creating new data
+                var Genres = []
                 var newData ={}
                 for (var i=0; i < keys.length; i++) {
                         newData[keys[i]] = genreOccur[i];
-                        for (var j=0; i < 32; j++) {
-                                 var l = genreOccur[i][j]
-                
-                                console.log(l)
-                        }
-                                
-                }
-                //console.log(newData)
 
+                        for (var j=0; j < genreOccur[i].length; j++) {
+                                var l = genreOccur[i][j].key
+                                Genres.push(l)        
+                        }
+                        //adding place holders for all genres in each year
+                        var newGenres = JSON.parse(JSON.stringify(genreOccur));
+                        if (Genres.indexOf('R&B')=== -1){
+                                var RB = newGenres[4][1];
+                                RB.value.length = 0
+                                genreOccur[i].push(RB)
+                        }
+                        if (Genres.indexOf('Jazz')=== -1){
+                                var Jazz = newGenres[2][1]
+                                Jazz.value.length = 0
+                                genreOccur[i].push(Jazz)
+                        }
+                        if (Genres.indexOf('Pop')=== -1){
+                                var Pop = newGenres[0][3]
+                                Pop.value.length = 0
+                                genreOccur[i].push(Pop)
+                        }
+                        if (Genres.indexOf('Country') === -1){
+                                var country = newGenres[0][1]
+                                country.value.length = 0
+                                genreOccur[i].push(country)
+                        }
+                        if (Genres.indexOf('Hip Hop') === -1){
+                                var Hiphop = newGenres[0][2]
+                                Hiphop.value.length = 0
+                                genreOccur[i].push(Hiphop)
+                        }
+                        if (Genres.indexOf('Rock') === -1){
+                                var Rock = newGenres[2][3]
+                                Rock.value.length = 0
+                                genreOccur[i].push(Rock)
+                        }
+                        if (Genres.indexOf('Classical') === -1){
+                                var classical = newGenres[0][0]
+                                classical.value.length = 0
+                                genreOccur[i].push(classical)
+                        }
+                        if (Genres.indexOf('World') === -1){
+                                var world = newGenres[0][5]
+                                world.value.length = 0
+                                genreOccur[i].push(world)
+                        }
+                        if (Genres.indexOf('Blues') === -1){
+                                var blues = newGenres[24][0]
+                                blues.value.length = 0
+                                genreOccur[i].push(blues)
+                        }
+                        if (Genres.indexOf('EDM') === -1){
+                                var edm = newGenres[23][1]
+                                edm.value.length = 0
+                                genreOccur[i].push(edm)
+                        }
+                        Genres.length  = 0
+                }
+              
                 var dimensions = {
                         width: 500,
                         height: 200,
@@ -96,10 +148,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .style("text-anchor", "middle")
                         .text("# of Genres (per Year)");
                 
-
                 var init = newData[1990]
-                
-                
                         var bars = bounds
                                 .selectAll("bars")
                                 .data(init)
@@ -110,22 +159,15 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .attr("y", function(d, i) { return yScale(d.value.length); })
                                 .attr("width", xScale.bandwidth())
                                 .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
-                                .style("fill", function(d,i){return myColor(i)});
-                               
-
-                       /* bars.transition()
-                                .ease(d3.easeLinear)
-                                .attr('y', function(d, i) { return yScale(d.value.length); })
-                                .attr('height', function(d){return dimensions.boundedHeight - yScale(d.value.length)})
-                                .style("fill", function(d,i){return myColor(i)});*/
-                //console.log(newData)
+                                .style("fill","Purple");         
+        
+                               // .style("fill", function(d,i){return myColor(i)});*/
                 console.log(init)
                  function updateBars(data){  
-                       // bars.exit().remove()
                         console.log(data)
                         bars.data(data)
                         .transition()
-                       // .attr("x", function(d, i) { return xScale(d.key); })
+                        .attr("x", function(d, i) { return xScale(d.key); })
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d, i) { return yScale(d.value.length); })
                         .attr("height",  function(d,i) { return dimensions.boundedHeight - yScale(d.value.length)})      
@@ -228,10 +270,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         )
                 //dots
                 var dots = svg2.selectAll("circle")
-                        .data(avg_array)
+                        .data(avg_array[data])
                         .enter()
                         .append("circle")
-                        .on("mouseover", function(d){
+
+                dots.on("mouseover", function(d){
                                 tooltip.text("Year: " + d[0] + "  Avg. Sales " + d[1]).style("visibility", "visible");
                                 d3.select(this)
                                 .attr("fill", "purple")
@@ -239,24 +282,28 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .on("mouseout", function(d){
                                 tooltip.html(``).style("visibility", "hidden");
                                 d3.select(this)
-                                .attr("fill", "red")
+                                .attr("fill", "navy")
                         })
-                        .attr("cx", d => xScale(d[0]))
-                        .attr("cy", d => yScale( d[1]))
-                        .attr("r", 3)
-                        .attr("fill", "red") 
-                highlightData(dots, data, xScale, yScale)
+                        .transition()
+                        .attr("cx", xScale(avg_array[data][0]))
+                        .attr("cy",  yScale( avg_array[data][1]))
+                        .attr("r", 4.5)
+                        .attr("fill", "navy") 
+                svg2.select("circle").remove()
+                        
+              //  highlightData(dots, data, xScale, yScale)
         }
+       // var c = ["black"]
+       /* function highlightData(dots,data, xScale, yScale){
 
-        function highlightData(dots,data, xScale, yScale){
-                ///dots.exit().remove()
-                dots
-                .data(avg_array)
-                .attr("cx", xScale(avg_array[data][0]))
+                dots.data(avg_array[data])
+                .attr("cx", xScale(d[0]))
                 .attr("cy", yScale( avg_array[data][1]))
                 .attr("r", 4)
-                .attr("fill", "red")
-        }
+                .style("fill","black")
+                return 0
+               
+        }*/
 
         /************************************************code for avg Tracks graph****************************************************************************/
         
