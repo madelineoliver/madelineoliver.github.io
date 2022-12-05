@@ -2,7 +2,9 @@
 d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         //sort data by year in ascending order
-        dataset.sort(function(a,b) { return +a.Year - +b.Year })
+       //dataset.sort(function(a,b) { return +a.Year - +b.Year })
+
+        console.log(dataset)
 
 
         //group data by year
@@ -17,17 +19,16 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         /**********************************************code for Genre bar graph*******************************************************************************/
                 
                 //get Genres for Each year 
-                //var bargroup = allGroup
                 var genreOccur = []
                 for(var i in allGroup){
-                      
                         genreOccur.push(Array.from(d3.group( allGroup[i].value, d => d.Genre ), ([key, value]) => ({key, value})))
                 }
-                for(var i =0; i<= genreOccur.length; i++){
+
+                //sort genres
+                for(var i =0; i< genreOccur.length; i++){
                  genreOccur[i].sort(function(a,b){return d3.ascending(a.key, b.key)})
                 }
 
-                console.log(genreOccur)
                 var newData ={}
                 for (var i=0; i < keys.length; i++) {
                         newData[keys[i]] = genreOccur[i];
