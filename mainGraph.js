@@ -55,14 +55,16 @@ console.log(c)
 //console.log(allGroup[0].value[0].Ranking)
 
 
-var bounds = svg1.append("g")
-.style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
 
-    var svg = d3.select("#vis4")
+
+    var svg4 = d3.select("#vis4")
         .style("width", dimensions.width)
         .style("height", dimensions.height)
         .append("g")
         .attr("transform","translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
+
+        var bounds = svg4.append("g")
+        .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
 
     var xScale = d3.scaleLinear()
         .domain(d3.extent(dataset, d => +d.WorldwideSales))

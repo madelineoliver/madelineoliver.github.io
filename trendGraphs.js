@@ -4,6 +4,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         //sort data by year in ascending order
         dataset.sort(function(a,b) { return +a.Year - +b.Year })
 
+
         //group data by year
         var allGroup = Array.from(d3.group(dataset, d => d.Year), ([key, value]) => ({key, value}), )
 
@@ -16,14 +17,22 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         /**********************************************code for Genre bar graph*******************************************************************************/
                 
                 //get Genres for Each year 
+                //var bargroup = allGroup
                 var genreOccur = []
-                for(var i in allGroup)
+                for(var i in allGroup){
+                      
                         genreOccur.push(Array.from(d3.group( allGroup[i].value, d => d.Genre ), ([key, value]) => ({key, value})))
-                //combine years and genre into new data
+                }
+                for(var i =0; i<= genreOccur.length; i++){
+                 genreOccur[i].sort(function(a,b){return d3.ascending(a.key, b.key)})
+                }
+
+                console.log(genreOccur)
                 var newData ={}
                 for (var i=0; i < keys.length; i++) {
                         newData[keys[i]] = genreOccur[i];
                 }
+                //console.log(newData)
 
                 var dimensions = {
                         width: 500,
@@ -80,6 +89,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("y", 15)
                         .style("text-anchor", "middle")
                         .text("# of Genres (per Year)");
+                
 
                 var init = newData[1990]
                         var bars = bounds
@@ -89,24 +99,30 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .append("rect")
                                 .attr("class", "bar")
                                 .attr("x", function(d, i) { return xScale(d.key); })
-                                .attr("width", xScale.bandwidth())
                                 .attr("y", function(d, i) { return yScale(d.value.length); })
+                                .attr("width", xScale.bandwidth())
                                 .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
-                                .style("fill", function(d,i){return myColor(i)})
-                                .attr("transform", function(d, i) {
-                                        return "translate(0," + yScale(d.Genre) + ")";
-                                    });
+                                .style("fill", function(d,i){return myColor(i)});
+                               
+
                        /* bars.transition()
                                 .ease(d3.easeLinear)
                                 .attr('y', function(d, i) { return yScale(d.value.length); })
                                 .attr('height', function(d){return dimensions.boundedHeight - yScale(d.value.length)})
                                 .style("fill", function(d,i){return myColor(i)});*/
-               
-
-                 function updateBars(data){      
-                        bars.select('rect')
-                        .data(data)
-                        .attr("height",  function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
+                console.log(init)
+                 function updateBars(data){  
+                        
+                        ///dimensions.boundedHeight - yScale(data.value.length)
+                       // bars.exit().remove()
+                        console.log(data)
+                        bars.data(data)
+                        .transition()
+                        .attr("x", function(d, i) { return xScale(d.key); })
+                        .attr("width", xScale.bandwidth())
+                        .attr("y", function(d, i) { return yScale(d.value.length); })
+                        .attr("height",  function(d,i) { return dimensions.boundedHeight - yScale(d.value.length)})      
+                        //console.log(data => data.value.length)       
                 }
             
                 //var init = newData[1990]
@@ -377,15 +393,21 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         /************************************** code for main ranking graph ***********************************************/
        
-        //get albums for Each year
+        //get rankings for Each year
         var  ranking = []
         for(var i in allGroup)
-                ranking.push(Array.from(d3.group( allGroup[i].value, d => d.Ranking ), ([key, value]) => ({key, value})))
+                ranking.push(Array.from(d3.group( allGroup[i].value, d => +d.Ranking ), ([key, value]) => ({key, value})))
+        
+        ranking.sort(function(a,b) { return +a.key - +b.key })
+        
+        console.log(ranking)
 
         var newData_main ={}
         for (var i=0; i < keys.length; i++) {
                 newData_main[keys[i]] = ranking[i];
         }
+
+
         
         createGraph4(0)
         function createGraph4(index){
@@ -423,7 +445,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var yScale1 = d3.scaleBand()
              .domain(dataset.map(function(d){ return +d.Ranking}))
              .range([dimensions4.boundedHeight , 1])
-             .padding(1)
+             .padding(.1)
 
 
         svg4.append("g")
@@ -451,9 +473,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("y", function(d, i) { return yScale1(d.value.length); })
                 .attr("height", function(d,i) { return dimensions4.boundedHeight - yScale1(d.value.length); })
                 //.style("fill", function(d,i){return myColor(i)})
-                .attr("transform", function(d, i) {
+               /* .attr("transform", function(d, i) {
                         return "translate(0," + yScale1(d.Ranking) + ")";
-                });
+                });*/
 
 
         //graph labels
