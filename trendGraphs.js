@@ -455,6 +455,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         /************************************** code for main ranking graph ***********************************************/
        
         //get rankings for Each year
+        
         var  ranking = []
         for(var i in allGroup)
                 ranking.push(Array.from(d3.group( allGroup[i].value, d => +d.Ranking ), ([key, value]) => ({key, value})))
@@ -466,10 +467,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         for (var i=0; i < keys.length; i++) {
                 newData_main[keys[i]] = ranking[i];
         }
+        
+        //console.log(newData_main[1990])
 
-        console.log(newData_main[1990])
-
-
+        console.log(allGroup)
         createGraph4(0)
         function createGraph4(index){
                 var dimensions4 = ({
@@ -527,6 +528,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         var initial = newData_main[1990]
 
+        console.log(initial)
+
 
         var bars = bounds2
                 .append("g")
@@ -534,13 +537,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .selectAll("rect")
                 .data(initial)
                 .join("rect")
-                .attr("width",function(d,i) {return xScale1(d.key);})
+                .attr("width",function(d,i) {return xScale1(+d.value[0].WorldWideSales);})
                 .attr("height", yScale1.bandwidth())
                 .attr("y", function(d,i) {return yScale1(d.key)})
-                .attr("x", 0.5)
+                .attr("x", xScale1(0))
                 .attr("fill", "#00AFDB")
                 .style("stroke", "#000")
 
+        /*
         function updateBars(data){  
                 console.log(data)
                 bars.data(data)
