@@ -365,10 +365,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         function createGraph3(index){
                 var dimensions3 = {
                         width: 700,
-                        height: 240,
+                        height: 250,
                         margin:{
                             top: 50,
-                           bottom:20,
+                           bottom:50,
                             right: 50,
                             left: 50
                         }
@@ -521,7 +521,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         margin: {
                         top: 10,
                         right: 10,
-                        bottom: 50,
+                        bottom: 60,
                         left: 40
                     }
                 })
