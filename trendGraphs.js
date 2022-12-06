@@ -453,7 +453,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         for(var i in allGroup)
                 ranking.push(Array.from(d3.group( allGroup[i].value, d => +d.Ranking ), ([key, value]) => ({key, value})))
         
-        
+        console.log(ranking)
 
 
         var newData_main ={}
@@ -462,7 +462,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
 
         console.log(newData_main[1990])
-        
+
+
         createGraph4(0)
         function createGraph4(index){
                 var dimensions4 = ({
@@ -533,6 +534,17 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("x", 0.5)
                 .attr("fill", "#00AFDB")
                 .style("stroke", "#000")
+
+        function updateBars(data){  
+                console.log(data)
+                bars.data(data)
+                .transition()
+                .attr("x", function(d, i) { return xScale(d.key); })
+                .attr("width", xScale.bandwidth())
+                .attr("y", function(d, i) { return yScale(d.value.length); })
+                .attr("height",  function(d,i) { return dimensions.boundedHeight - yScale(d.value.length)})      
+                //console.log(data => data.value.length)       
+        }
         
                 /*
         var bars2 = bounds2
