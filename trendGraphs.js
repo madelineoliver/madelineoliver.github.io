@@ -270,29 +270,29 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .y(function(d) { return yScale(d[1]) })
                         )
                 //dots
-                var dots = svg2.selectAll("circle")
-                        .data(avg_array[data])
-                        .enter()
-                        .append("circle")
-
-                dots.on("mouseover", function(d){
-                                tooltip.text("Year: " + d[0] + "  Avg. Sales " + d[1]).style("visibility", "visible");
-                                d3.select(this)
-                                .attr("fill", "purple")
-                        })
-                        .on("mouseout", function(d){
-                                tooltip.html(``).style("visibility", "hidden");
-                                d3.select(this)
-                                .attr("fill", "navy")
-                        })
-                        .transition()
+                var circles = svg2.selectAll("circle")
+                        .data(avg_array)
+                circles.attr("class", "update")                        
+                circles.enter().append("circle")
+                        .merge(circles)
                         .attr("cx", xScale(avg_array[data][0]))
                         .attr("cy",  yScale( avg_array[data][1]))
                         .attr("r", 4.5)
                         .attr("fill", "navy") 
-                svg2.select("circle").remove()
+                
+                circles.exit().remove()
+
+                
+              /*  dots.transition()
+                        .attr("cx", xScale(avg_array[data][0]))
+                        .attr("cy",  yScale( avg_array[data][1]))
+                        .attr("r", 4.5)
+                        .attr("fill", "navy") */
+        
+
+        
                         
-              //  highlightData(dots, data, xScale, yScale)
+               // highlightData(dots, data, xScale, yScale)
         }
        // var c = ["black"]
        /* function highlightData(dots,data, xScale, yScale){
