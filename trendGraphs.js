@@ -149,6 +149,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .text("# of Genres (per Year)");
                 
                 var init = newData[1990]
+                console.log(init)
                         var bars = bounds
                                 .selectAll("bars")
                                 .data(init)
@@ -519,8 +520,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         var initial = newData_main[1990]
 
-        let keys = Object.keys(initial)
-        console.log(keys)
 
         var bars = bounds2
                 .append("g")
@@ -528,9 +527,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .selectAll("rect")
                 .data(initial)
                 .join("rect")
-                .attr("width", initial => xScale1(initial.value.WorldWideSales))
+                .attr("width",function(d,i) {return xScale1(d.key);})
                 .attr("height", yScale1.bandwidth())
-                .attr("y", initial => yScale1(Object.keys(initial)))
+                .attr("y", function(d,i) {return yScale1(d.WorldWideSales)})
                 .attr("x", 0.5)
                 .attr("fill", "#00AFDB")
                 .style("stroke", "#000")
