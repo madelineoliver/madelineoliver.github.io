@@ -466,11 +466,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         function createGraph4(index){
                 var dimensions4 = ({
                         width: 700,
-                        height: 260,
+                        height: 500,
                         margin: {
                         top: 10,
                         right: 10,
-                        bottom: 30,
+                        bottom: 50,
                         left: 40
                     }
                 })
@@ -511,25 +511,47 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("transform", "rotate(-65)");
 
         svg4.append("g")
-                .call(d3.axisLeft(yScale1));
+                .call(d3.axisLeft(yScale1).tickSize(0));
+
+        //remove y axis bar
+        yScale1.call(d => d.select(".domain").remove)
                 
 
         var initial = newData_main[1990]
 
+        let keys = Object.keys(initial)
+        console.log(keys)
+
         var bars = bounds2
-                .selectAll("bars")
-                .data(initial)
-                .enter()
                 .append("g")
+                //.attr("transform", `translate(${margin.left}, ${margin.top})`)
+                .selectAll("rect")
+                .data(initial)
+                .join("rect")
+                .attr("width", initial => xScale1(initial.value.WorldWideSales))
+                .attr("height", yScale1.bandwidth())
+                .attr("y", initial => yScale1(Object.keys(initial)))
+                .attr("x", 0.5)
+                .attr("fill", "#00AFDB")
+                .style("stroke", "#000")
+        
+                /*
+        var bars2 = bounds2
+                .append("g")
+                .selectAll("bars2")
+                .data(init)
+                .enter()
+                .append("rect")
                 .attr("class", "bar")
-                .attr("x", function(d, i) { return xScale1(d.key); })
-                //.attr("width", xScale1.bandwidth())
-                .attr("y", function(d, i) { return yScale1(d.value.length); })
-                .attr("height", function(d,i) { return dimensions4.boundedHeight - yScale1(d.value.length); })
-                //.style("fill", function(d,i){return myColor(i)})
-                /*.attr("transform", function(d, i) {
-                        return "translate(0," + yScale1(d.Ranking) + ")";
-                });*/
+                .attr("x", function(d, i) { return xScale1(d.value.WorldWideSales); })
+                .attr("y", function(d, i) { return yScale1(d.key); })
+                .attr("width", d => xScale1(d.value.worldWideSales))
+                .attr("height", yScale1.bandwidth() )
+                .style("fill","Purple");         
+        */
+        
+        
+                
 
 
         //graph labels
