@@ -112,7 +112,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 var g = svg1.append("g")
                         .attr("transform", "translate(" + dimensions.margin.left+ "," + dimensions.margin.top +  ")");
-
+                    
                
                 var bounds = svg1.append("g")
                         .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
@@ -134,6 +134,16 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 g.append("g")
                         .call(d3.axisLeft(yScale));
+                //add grid
+                g.append('g')
+                        .attr('class', 'grid')
+                        .call(d3.axisLeft()
+                            .scale(yScale)
+                            .tickSize(-dimensions.boundedWidth, 0, 0)
+                            .tickFormat(''))
+                        .style("stroke-width", .5)
+                        .style("stroke-opacity", 0.5)
+                        
 
                 //graph labels
                 svg1.append("text")
@@ -160,8 +170,21 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .attr("y", function(d, i) { return yScale(d.value.length); })
                                 .attr("width", xScale.bandwidth())
                                 .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
-                                .style("fill","Purple");         
+                                .style("fill","Purple")
+                                .on('mouseover', function(d,i){
+                                        d3.select(this)
+                                        .style("fill", 'Navy');
+
+                                })
+                                .on('mouseout', function (d, i) {
+                                        d3.select(this).transition()
+                                        .style("fill","Purple")
+                                })
+                                
+                              
+                                           
         
+             
                                // .style("fill", function(d,i){return myColor(i)});*/
                 console.log(init)
                  function updateBars(data){  
@@ -270,28 +293,52 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .y(function(d) { return yScale(d[1]) })
                         )
                 //dots
-                var circles = svg2.selectAll("circle")
+                
+                var circles = svg2.selectAll('.circle')
                         .data(avg_array)
-                circles.attr("class", "update")                        
-                circles.enter().append("circle")
+                circles.enter()
+                        .append('circle')
                         .merge(circles)
+                        .attr("class", "update") 
+                        //.attr("cx", d => xScale(d[0]))
+                        //.attr("cy", d => yScale( d[1]))
+                        .attr("cx", xScale(avg_array[data][0]))
+                        .attr("cy",  yScale(avg_array[data][1]))
+                        .attr("r", 4.5)
+                        .attr("fill", "navy")   
+                       
+                circles.exit().remove()
+                
+
+               /* circles.merge(circleEnter)
+                .merge(circles).transition()
                         .attr("cx", xScale(avg_array[data][0]))
                         .attr("cy",  yScale( avg_array[data][1]))
                         .attr("r", 4.5)
                         .attr("fill", "navy") 
+                        .on('mouseover', function(d){
+                                tooltip.text("Year: " + avg_array[data][0] + "  Avg. Sales: " + avg_array[data][1]).style("visibility", "visible");
+                                d3.select(this)
+                                .attr("r", 6);
+                        })
+                        .on('mouseout', function (d, i) {
+                                tooltip.html(``).style("visibility", "hidden");
+                                d3.select(this).transition()
+                                .attr("r", 5);
+                        })
+                        .attr("cx", xScale(avg_array[data][0]))
+                        .attr("cy",  yScale( avg_array[data][1]))
+                        .attr("r", 4.5)
+                        .attr("fill", "navy") */
                 
-                circles.exit().remove()
+               // circles.exit().remove()
 
                 
               /*  dots.transition()
                         .attr("cx", xScale(avg_array[data][0]))
                         .attr("cy",  yScale( avg_array[data][1]))
                         .attr("r", 4.5)
-                        .attr("fill", "navy") */
-        
-
-        
-                        
+                        .attr("fill", "navy") */  
                // highlightData(dots, data, xScale, yScale)
         }
        // var c = ["black"]
@@ -467,7 +514,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         function createGraph4(index){
                 var dimensions4 = ({
                         width: 700,
-                        height: 500,
+                        height: 300,
                         margin: {
                         top: 10,
                         right: 10,
