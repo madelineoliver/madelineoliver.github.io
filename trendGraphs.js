@@ -160,7 +160,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .text("# of Genres (per Year)");
                 
                 var init = newData[1990]
-                console.log(init)
+                //console.log(init)
                         var bars = bounds
                                 .selectAll("bars")
                                 .data(init)
@@ -181,13 +181,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                         d3.select(this).transition()
                                         .style("fill","Purple")
                                 })
-                                
-                              
-                                           
-        
              
                                // .style("fill", function(d,i){return myColor(i)});*/
-                console.log(init)
+               // console.log(init)
                  function updateBars(data){  
                         console.log(data)
                         bars.data(data)
@@ -294,29 +290,15 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .y(function(d) { return yScale(d[1]) })
                         )
                 //dots
-                
-                var circles = svg2.selectAll('.circle')
+                        var circles = svg2.selectAll('.circle')
                         .data(avg_array)
-                circles.enter()
+                        .enter()
                         .append('circle')
-                        .merge(circles)
                         .attr("class", "update") 
-                        //.attr("cx", d => xScale(d[0]))
-                        //.attr("cy", d => yScale( d[1]))
-                        .attr("cx", xScale(avg_array[data][0]))
-                        .attr("cy",  yScale(avg_array[data][1]))
+                        .attr("cx",d=> xScale(d[0]))
+                        .attr("cy", d => yScale(d[1]))
                         .attr("r", 4.5)
-                        .attr("fill", "navy")   
-                       
-                circles.exit().remove()
-                
-
-               /* circles.merge(circleEnter)
-                .merge(circles).transition()
-                        .attr("cx", xScale(avg_array[data][0]))
-                        .attr("cy",  yScale( avg_array[data][1]))
-                        .attr("r", 4.5)
-                        .attr("fill", "navy") 
+                        .attr("fill", "navy")  
                         .on('mouseover', function(d){
                                 tooltip.text("Year: " + avg_array[data][0] + "  Avg. Sales: " + avg_array[data][1]).style("visibility", "visible");
                                 d3.select(this)
@@ -327,32 +309,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 d3.select(this).transition()
                                 .attr("r", 5);
                         })
-                        .attr("cx", xScale(avg_array[data][0]))
-                        .attr("cy",  yScale( avg_array[data][1]))
-                        .attr("r", 4.5)
-                        .attr("fill", "navy") */
-                
-               // circles.exit().remove()
-
-                
-              /*  dots.transition()
-                        .attr("cx", xScale(avg_array[data][0]))
-                        .attr("cy",  yScale( avg_array[data][1]))
-                        .attr("r", 4.5)
-                        .attr("fill", "navy") */  
-               // highlightData(dots, data, xScale, yScale)
         }
-       // var c = ["black"]
-       /* function highlightData(dots,data, xScale, yScale){
-
-                dots.data(avg_array[data])
-                .attr("cx", xScale(d[0]))
-                .attr("cy", yScale( avg_array[data][1]))
-                .attr("r", 4)
-                .style("fill","black")
-                return 0
-               
-        }*/
+ 
 
         /************************************************code for avg Tracks graph****************************************************************************/
         
@@ -439,7 +397,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .enter()
                         .append("circle")
                         .on('mouseover', function(d){
-                                tooltip.text("Year: " + d[0] + "  Avg. Tracks " + d[1]).style("visibility", "visible");
+                                tooltip.text("Year: " + avg_array2[data][0] + "  Avg. Tracks: " + avg_array2[data][1]).style("visibility", "visible");
                                 d3.select(this)
                                 .attr("r", 6);
                         })
