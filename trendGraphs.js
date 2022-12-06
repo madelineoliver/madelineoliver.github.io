@@ -8,6 +8,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         //group data by year
         var allGroup = Array.from(d3.group(dataset, d => d.Year), ([key, value]) => ({key, value}), )
 
+
         //get years for dropdown
         var keys = []
         for(var i in allGroup)
@@ -530,7 +531,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .join("rect")
                 .attr("width",function(d,i) {return xScale1(d.key);})
                 .attr("height", yScale1.bandwidth())
-                .attr("y", function(d,i) {return yScale1(d.WorldWideSales)})
+                .attr("y", function(d,i) {return yScale1(d.key)})
                 .attr("x", 0.5)
                 .attr("fill", "#00AFDB")
                 .style("stroke", "#000")
@@ -547,18 +548,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
         
                 /*
-        var bars2 = bounds2
-                .append("g")
-                .selectAll("bars2")
-                .data(init)
-                .enter()
-                .append("rect")
-                .attr("class", "bar")
-                .attr("x", function(d, i) { return xScale1(d.value.WorldWideSales); })
-                .attr("y", function(d, i) { return yScale1(d.key); })
-                .attr("width", d => xScale1(d.value.worldWideSales))
-                .attr("height", yScale1.bandwidth() )
-                .style("fill","Purple");         
         */
         
         
