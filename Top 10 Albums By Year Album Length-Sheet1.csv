@@ -1,4 +1,4 @@
-Year,Ranking,Artist,Album,WorldwideSales,CDs,Tracks,Album Length,Hours,Minutes,Seconds,Genre
+Year,Ranking,Artist,Album,WorldwideSales,CDs,Tracks,AlbumLength,Hours,Minutes,Seconds,Genre
 1990,1,Madonna,The Immaculate Collection,30000000,1,17,1:13:32,1.23,73.53,4412,Pop
 1990,2,New Kids On The Block,Step By Step,20000000,1,12,0:47:44,0.8,47.73,2864,Pop
 1990,3,Garth Brooks,No Fences,18770000,1,10,0:34:34,0.58,34.57,2074,Country
