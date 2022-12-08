@@ -178,12 +178,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .attr("width", xScale.bandwidth())
                                 .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
                                 .style("fill","Purple")
+                                .style("stroke", "black")
                                 .on('mouseover', function(d,i){
-                                      
                                         d3.select(this).style('stroke', 'white')
-
                                 })
                                 .on('mouseout', function (d, i) {
+                                        d3.select(this).style('stroke', 'black')
                                         d3.select(this).transition()
                                         .style("fill","Purple")
                                 })
@@ -281,12 +281,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .style("position", "absolute")
                         .style("z-index", "10")
                         .style("visibility", "hidden")
-                        .style("width", "100px")
+                        .style("width", "210px")
                         .style("padding", "10px")
-                        .style("background", "purple")
+                        .style("background", "Navy")
                         .style("border-radius", "5px")
                         .style("top", "62%")
-                        .style("left", "87%")
+                        .style("left", "75%")
                         .style("color", "#fff")
                         .text("a simple tooltip");
               
@@ -294,8 +294,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 svg2.append("path")
                         .datum(avg_array)
                         .attr("fill", "none")
-                        .attr("stroke", "#cfcfc4")
-                        .attr("stroke-width", 3)
+                        .attr("stroke", "#C5C5C5")
+                        .attr("stroke-width", 3 )
                         .attr("d", d3.line()
                         .x(function(d) { return xScale(d[0]) })
                         .y(function(d) { return yScale(d[1]) }))
@@ -313,7 +313,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("y2", 0)
                         .style("stroke-dasharray", 2)
                         .style("stroke-width", 3)
-                        .style("stroke", "red")
+                        .style("stroke", "#FDFD96")
                         .style("fill", "none");
                 lineTwo = line2
                 
@@ -327,9 +327,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("cx",d=> xScale(d[0]))
                         .attr("cy", d => yScale(d[1]))
                         .attr("r", 4.5)
-                        .attr("fill", "#F8C8DC") 
+                        .attr("fill", "#2E8BC0") 
+                        .style("stroke", "navy")
                         .on('mouseover', function(d,i){
-                                tooltip.text("Year: " + i[0] + "  Avg. Sales: " +i[1]).style("visibility", "visible");
+                                tooltip.text("Year: " + i[0] + " \nAvg. Sales: " +i[1]).style("visibility", "visible");
                                 d3.select(this)
                                 .attr("r", 6)
                                 .attr("fill", "#FDFD96") 
@@ -338,7 +339,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 tooltip.html(``).style("visibility", "hidden");
                                 d3.select(this).transition()
                                 .attr("r", 5)
-                                .attr("fill", "#F8C8DC") 
+                                .attr("fill", "#2E8BC0") 
+                                
                         })
         }
  
@@ -418,8 +420,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 svg3.append("path")
                         .datum(avg_array2)
                         .attr("fill", "none")
-                        .attr("stroke", "#69b3a2")
-                        .attr("stroke-width", 4)
+                        .attr("stroke", "#C5C5C5")
+                        .attr("stroke-width", 3)
                         .attr("d", d3.line()
                                 .x(function(d) {return xScale(d[0]) })
                                 .y(function (d) { return yScale(d[1])})
@@ -436,7 +438,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("y2", 0)
                         .style("stroke-dasharray", 2)
                         .style("stroke-width", 3)
-                        .style("stroke", "red")
+                        .style("stroke", "#FDFD96")
                         .style("fill", "none");
                 lineOne = line1
                 
@@ -448,7 +450,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .enter()
                         .append("circle")
                         .on('mouseover', function(d,i){
-                                tooltip.text("Year: " + i[0] + "  Avg. Tracks: " +i[1]).style("visibility", "visible");
+                                tooltip.text("Year: " + i[0] +  "Avg. Tracks: " +i[1]).style("visibility", "visible");
                                 d3.select(this)
                                 .attr("r", 6);
                         })
@@ -530,9 +532,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("position", "absolute")
                 .style("z-index", "10")
                 .style("visibility", "hidden")
-                .style("width", "100px")
+                .style("width", "300px")
                 .style("padding", "10px")
-                .style("background", "purple")
+                .style("background", "#eddaca")
                 .style("border-radius", "5px")
                 .style("top", "30%")
                 .style("left", "50%")
@@ -571,7 +573,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         console.log(initial)
 
         //console.log(initial)
-         
+        //myColor = [ "navy", "Blue", "Green", "pink","black", "yellow", "white", "orange", "red","purple"]
+        //myColor = ["#f7fbff","#e3eef9","#cfe1f2","#b5d4e9","#93c3df","#6daed5","#4b97c9","#2f7ebc","#1864aa","#0a4a90","#08306b"]
+        myColor = ["#08306b","#0b4d94","#1c6aaf","#3787c0","#59a1cf","#82badb","#abcfe6","#cadef0","#e1edf8","#f7fbff"]
         var bars2 = bounds2
                 .append("g")
                 //.attr("transform", `translate(${margin.left}, ${margin.top})`)
@@ -582,12 +586,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("height", yScale1.bandwidth())
                 .attr("y", function(d,i) {return yScale1(d.key)})
                 .attr("x", xScale1(0))
-                .attr("fill", "#00AFDB")
+                .attr("fill", function(d, i){return myColor[i]})
                 .style("stroke", "#000")
                 .on('mouseover', function(d,i){
                         
                         d3.select(this).style('stroke', 'white')
-                        tooltip.text("Album Name: " + i.value[0].Album + "Artist: " + i.value[0].Artist + "  CD's: " +  i.value[0].CDs + "Tracks:" +  i.value[0].Tracks + "Album Length:" +  i.value[0].AlbumLength + "Genre:" + i.value[0].Genre).style("visibility", "visible");
+                        tooltip.text("Album Name: " + i.value[0].Album + "\n" + "Artist: " + i.value[0].Artist + "  CD's: " +  i.value[0].CDs + "Tracks:" +  i.value[0].Tracks + "Album Length:" +  i.value[0].AlbumLength + "Genre:" + i.value[0].Genre).style("visibility", "visible");
                         d3.select(this)
                         .attr("r", 6);
                 }
