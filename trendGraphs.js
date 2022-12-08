@@ -185,7 +185,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                if(v== "World")
                                         return "yellow"  
                                 if (v== "Jazz")
-                                        return "brown" }
+                                        return "brown"                        }
 
                 var init = newData[1990]
                 //console.log(init)
