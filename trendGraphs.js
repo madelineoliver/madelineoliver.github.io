@@ -170,23 +170,23 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         function colorPicker(v) 
                         {
                                 if (v == "R&B")
-                                        return "black"
+                                        return "#7fc97f"
                                 if (v == "Pop" )
-                                        return "purple"
+                                        return "#beaed4"
                                 if(v=="Country")
-                                        return "pink"
+                                        return "#ffff99"
                                 if(v == "Blues")
-                                        return "green"
-                                if(v == "Hip hop")
-                                        return "orange"
+                                        return "#386cb0"
+                                if(v == "Hip Hop")
+                                        return "#CDF0EA"
                                 if(v == "Classical")
-                                        return "navy"
+                                        return "#bf5b17"
                                if(v== "Rock")
-                                        return "red" 
+                                        return "#898AA6" 
                                if(v== "World")
-                                        return "yellow"  
+                                        return "#B7C4CF"  
                                 if (v== "Jazz")
-                                        return "brown"}
+                                        return "#DEB6AB"                        }
 
                 var init = newData[1990]
                 //console.log(init)
@@ -219,7 +219,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("x", function(d, i) { return xScale(d.key); })
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d, i) { return yScale(d.value.length); })
-                        .attr("height",  function(d,i) { return dimensions.boundedHeight - yScale(d.value.length)})      
+                        .attr("height",  function(d,i) { return dimensions.boundedHeight - yScale(d.value.length)})   
+                        .style("fill", function(d,i) {return colorPicker(d.key)})
                         //console.log(data => data.value.length)       
                 }
             
