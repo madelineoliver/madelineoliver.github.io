@@ -354,7 +354,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .style("stroke", "navy")
                         .on('mouseover', function(d,i){
                                 tooltip.text("Year: " + i[0] + " \nAvg. Sales: " +i[1]).style("visibility", "visible");
-                                d3.select(this)
+                                d3.select(this).transition()
                                 .attr("r", 6)
                                 .attr("fill", "#FDFD96") 
                         })
@@ -472,20 +472,24 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .data(avg_array2)
                         .enter()
                         .append("circle")
+                        .attr("fill", "#2E8BC0") 
+                        .style("stroke", "navy")
                         .on('mouseover', function(d,i){
                                 tooltip.text("Year: " + i[0] +  "Avg. Tracks: " +i[1]).style("visibility", "visible");
-                                d3.select(this)
-                                .attr("r", 6);
+                                d3.select(this).transition()
+                                .attr("r", 6)
+                                .attr("fill", "#FDFD96")
                         })
                         .on('mouseout', function (d, i) {
                                 tooltip.html(``).style("visibility", "hidden");
                                 d3.select(this).transition()
-                                .attr("r", 5);
+                                .attr("r", 5)
+                                .attr("fill", "#2E8BC0") 
                         })
                         .attr("cx", d => xScale(d[0]))
                         .attr("cy", d => yScale( d[1]))
                         .attr("r", 5)
-                        .attr("fill", "black")
+                       
 
                 
                 svg3.append("g")
