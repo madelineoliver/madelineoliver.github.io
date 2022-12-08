@@ -181,7 +181,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 if(v == "Classical")
                                         return "#bf5b17"
                                if(v== "Rock")
-                                        return "#898AA6" 
+                                        return "#68A7AD" 
                                if(v== "World")
                                         return "#B7C4CF"  
                                 if (v== "Jazz")
@@ -526,12 +526,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         //console.log(allGroup)
                 var dimensions4 = ({
-                        width: 700,
-                        height: 300,
+                        width: 600,
+                        height: 380,
                         margin: {
                         top: 0,
                         right: 20,
-                        bottom: 60,
+                        bottom: 80,
                         left: 42
                     }
                 })
