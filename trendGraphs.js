@@ -152,11 +152,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 //graph labels
                 svg1.append("text")
+                        .attr('class', 'text')
                         .attr("transform", "translate(" + (dimensions.boundedWidth/2) + " ," + (dimensions.boundedHeight+70) + ")")
                         .style("text-anchor", "middle")
                         .text("Genre");
 
                 svg1.append("text")
+                        .attr('class', 'text')
                         .attr("transform", "rotate(-90)")
                         .attr("x", -(dimensions.boundedHeight-20))
                         .attr("y", 15)
@@ -258,11 +260,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 //graph labels
                 svg2.append("text")
+                        .attr('class', 'text')
                         .attr("transform", "translate(" + (dimensions2.boundedWidth/2) + " ," + (dimensions2.boundedHeight+50) + ")")
                         .style("text-anchor", "middle")
                         .text("Year");
 
                 svg2.append("text")
+                        .attr('class', 'text')
                         .attr("transform", "rotate(-90)")
                         .attr("x", -(dimensions2.boundedHeight/2))
                         .attr("y", -80)
@@ -380,11 +384,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         
                 //graph labels
                 svg3.append("text")
+                        .attr('class', 'text')
                         .attr("transform", "translate(" + (dimensions3.boundedWidth/2) + " ," + (dimensions3.boundedHeight +50) + ")")
                         .style("text-anchor", "middle")
                         .text("Year");
                 
                 svg3.append("text")
+                        .attr('class', 'text')
                         .attr("transform", "rotate(-90)")
                         .attr("x", -(dimensions3.boundedHeight/2 ))
                         .attr("y",-80)
