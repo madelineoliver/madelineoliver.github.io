@@ -211,7 +211,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         createGraph2(0)
         function createGraph2(index){
                 var dimensions2 = {
-                        width: 700,
+                        width: 550,
                         height: 240,
                         margin:{
                             top: 50,
@@ -290,7 +290,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 svg2.append("path")
                         .datum(avg_array)
                         .attr("fill", "none")
-                        .attr("stroke", "#69b3a2")
+                        .attr("stroke", "#cfcfc4")
                         .attr("stroke-width", 3)
                         .attr("d", d3.line()
                         .x(function(d) { return xScale(d[0]) })
@@ -323,16 +323,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("cx",d=> xScale(d[0]))
                         .attr("cy", d => yScale(d[1]))
                         .attr("r", 4.5)
-                        .attr("fill", "navy") 
+                        .attr("fill", "#F8C8DC") 
                         .on('mouseover', function(d,i){
                                 tooltip.text("Year: " + i[0] + "  Avg. Sales: " +i[1]).style("visibility", "visible");
                                 d3.select(this)
-                                .attr("r", 6);
+                                .attr("r", 6)
+                                .attr("fill", "#FDFD96") 
                         })
                         .on('mouseout', function (d, i) {
                                 tooltip.html(``).style("visibility", "hidden");
                                 d3.select(this).transition()
-                                .attr("r", 5);
+                                .attr("r", 5)
+                                .attr("fill", "#F8C8DC") 
                         })
         }
  
@@ -347,7 +349,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         createGraph3(0)
         function createGraph3(index){
                 var dimensions3 = {
-                        width: 700,
+                        width: 550,
                         height: 240,
                         margin:{
                             top: 50,
