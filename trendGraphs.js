@@ -536,7 +536,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         margin: {
                         top: 0, //0
                         right: 20, //20
-                        bottom: 80, //80
+                        bottom: 90, //80
                         left: 40 //30
                         }
 
@@ -595,7 +595,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         svg4.append("text")
                 .attr('class', 'text')
-                .attr("transform", "translate(" + (dimensions4.boundedWidth/2) + " ," + (dimensions4.boundedHeight +50) + ")")
+                .attr("transform", "translate(" + (dimensions4.boundedWidth/2) + " ," + (dimensions4.boundedHeight +75) + ")")
                 .style("text-anchor", "middle")
                 .text("World Wide Sales");
         
@@ -603,7 +603,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr('class', 'text')
                 .attr("transform", "rotate(-90)")
                 .attr("x", -(dimensions4.boundedHeight/2 ))
-                .attr("y",-80)
+                .attr("y",0)
                 .style("text-anchor", "middle")
                 .text("Ranking");
 
@@ -694,7 +694,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
         var dropdown = d3.select('#dropdown')
         //  .insert("select", "svg1")
-                .on("change", dropdownChange);
+                .on("change", dropdownChange)
+                .attr('class', 'dropdown');
 
         dropdown.selectAll('myOptions')
                 .data(allGroup)
