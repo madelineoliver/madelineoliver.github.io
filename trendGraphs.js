@@ -476,36 +476,20 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .style("stroke", "navy")
                         .on('mouseover', function(d,i){
                                 tooltip.text("Year: " + i[0] +  "Avg. Tracks: " +i[1]).style("visibility", "visible");
-<<<<<<< HEAD
-                                d3.select(this)
-                                .attr("r", 6)
-                                .attr("fill", "#FDFD96") 
-=======
                                 d3.select(this).transition()
                                 .attr("r", 6)
                                 .attr("fill", "#FDFD96")
->>>>>>> be40e1a73c25180d42335898cc18b9930feb2ff3
                         })
                         .on('mouseout', function (d, i) {
                                 tooltip.html(``).style("visibility", "hidden");
                                 d3.select(this).transition()
-<<<<<<< HEAD
-                                .attr("r", 4.5)
-                                .attr("fill", "#beaed4")
-=======
                                 .attr("r", 5)
                                 .attr("fill", "#2E8BC0") 
->>>>>>> be40e1a73c25180d42335898cc18b9930feb2ff3
                         })
                         .attr("cx", d => xScale(d[0]))
                         .attr("cy", d => yScale( d[1]))
                         .attr("r", 5)
-<<<<<<< HEAD
-                        .attr("fill", "#beaed4")
-                        .attr("stroke", "#670067")
-=======
                        
->>>>>>> be40e1a73c25180d42335898cc18b9930feb2ff3
 
                 
                 svg3.append("g")
