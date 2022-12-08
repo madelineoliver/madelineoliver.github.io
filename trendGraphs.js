@@ -350,7 +350,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("cx",d=> xScale(d[0]))
                         .attr("cy", d => yScale(d[1]))
                         .attr("r", 4.5)
-                        .attr("fill", "#2E8BC0") 
+                        .attr("fill", "#BEAEB4") 
                         .style("stroke", "navy")
                         .on('mouseover', function(d,i){
                                 tooltip.text("Year: " + i[0] + " \nAvg. Sales: " +i[1]).style("visibility", "visible");
@@ -361,8 +361,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .on('mouseout', function (d, i) {
                                 tooltip.html(``).style("visibility", "hidden");
                                 d3.select(this).transition()
+<<<<<<< HEAD
                                 .attr("r", 4.5)
                                 .attr("fill", "#2E8BC0") 
+=======
+                                .attr("r", 5)
+                                .attr("fill", "#BEAEB4") 
+>>>>>>> 6a6cee190eaf91f29eb30930c6577868ac033c24
                                 
                         })
         }
@@ -472,7 +477,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .data(avg_array2)
                         .enter()
                         .append("circle")
-                        .attr("fill", "#2E8BC0") 
+                        .attr("fill", "#BEAEB4") 
                         .style("stroke", "navy")
                         .on('mouseover', function(d,i){
                                 tooltip.text("Year: " + i[0] +  "Avg. Tracks: " +i[1]).style("visibility", "visible");
@@ -484,7 +489,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 tooltip.html(``).style("visibility", "hidden");
                                 d3.select(this).transition()
                                 .attr("r", 5)
-                                .attr("fill", "#2E8BC0") 
+                                .attr("fill", "#BEAEB4") 
                         })
                         .attr("cx", d => xScale(d[0]))
                         .attr("cy", d => yScale( d[1]))
