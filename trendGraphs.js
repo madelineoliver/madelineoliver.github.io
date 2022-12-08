@@ -554,21 +554,25 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var bounds2 = svg4.append("g")
                 .style("transform", `translate(${dimensions4.margin.left}px, ${dimensions4.margin.top}px)`)
 
+        
         const tooltip = d3.select("body")
                 .append("div")
                 .attr("class","d3-tooltip")
                 .style("position", "absolute")
                 .style("z-index", "10")
                 .style("visibility", "hidden")
-                .style("width", "300px")
+                .style("width", "200px")
                 .style("padding", "10px")
-                .style("background", "#eddaca")
+                .style("background", "#c68c53")
                 .style("border-radius", "5px")
                 .style("top", "15%")
                 .style("left", "28%")
                 .style("color", "#fff")
                 .text("a simple tooltip");
+        
 
+        
+        
         var xScale1 = d3.scaleLinear()
                 .domain([0, 50000000])
                 .range([0, dimensions4.boundedWidth])
@@ -632,7 +636,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .on('mouseover', function(d,i){
                         
                         d3.select(this).style('stroke', 'white')
-                        tooltip.text("Album Name: " + i.value[0].Album + "\n" + "Artist: " + i.value[0].Artist + "  CD's: " +  i.value[0].CDs + "Tracks:" +  i.value[0].Tracks + "Album Length:" +  i.value[0].AlbumLength + "Genre:" + i.value[0].Genre).style("visibility", "visible");
+                        tooltip.html("Album Name: " + i.value[0].Album + "</br>" + "Artist: " + i.value[0].Artist + "</br>" +  "CD's: " +  i.value[0].CDs + "Tracks:" +  i.value[0].Tracks + "Album Length:" +  i.value[0].AlbumLength + "Genre:" + i.value[0].Genre).style("visibility", "visible");
                         d3.select(this)
                         .attr("r", 6);
                 }
@@ -642,7 +646,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         tooltip.html(``).style("visibility", "hidden");
                         d3.select(this).transition()
                         .attr("r", 5);
+                        
                 })
+
+       
                 
 
         function updateBars2(data){  
