@@ -570,7 +570,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .text("a simple tooltip");
 
         var xScale1 = d3.scaleLinear()
-                .domain([0, 45000000])
+                .domain([0, 50000000])
                 .range([0, dimensions4.boundedWidth])
 
         var yScale1 = d3.scaleBand()
@@ -579,7 +579,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
              .paddingOuter(.1)
              .paddingInner(.2)
         
-        //graph labels
+        
         svg4.append("g")
                 .attr("transform", "translate(40," + dimensions4.boundedHeight + ")")
                 .call(d3.axisBottom(xScale1))
@@ -592,6 +592,20 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         svg4.append("g")
                 .call(d3.axisLeft(yScale1).tickSize(0))
                 .attr('transform', `translate(${dimensions4.margin.left}, ${dimensions4.margin.top})`);
+
+        svg4.append("text")
+                .attr('class', 'text')
+                .attr("transform", "translate(" + (dimensions4.boundedWidth/2) + " ," + (dimensions4.boundedHeight +50) + ")")
+                .style("text-anchor", "middle")
+                .text("World Wide Sales");
+        
+        svg4.append("text")
+                .attr('class', 'text')
+                .attr("transform", "rotate(-90)")
+                .attr("x", -(dimensions4.boundedHeight/2 ))
+                .attr("y",-80)
+                .style("text-anchor", "middle")
+                .text("Ranking");
 
         //remove y axis bar
         yScale1.call(d => d.select(".domain").remove)
