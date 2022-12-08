@@ -164,7 +164,29 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("y", 15)
                         .style("text-anchor", "middle")
                         .text("# of Genres (per Year)");
-                
+                        
+                        ["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0","#f0027f","#bf5b17","#666666"]
+                        function colorPicker(v) 
+                        {
+                                if (v == "R&B")
+                                        return "black"
+                                if (v == "Pop" )
+                                        return "purple"
+                                if(v=="Country")
+                                        return "pink"
+                                if(v == "Blues")
+                                        return "green"
+                                if(v == "Hip hop")
+                                        return "orange"
+                                if(v == "Classical")
+                                        return "navy"
+                               if(v== "Rock")
+                                        return "red" 
+                               if(v== "World")
+                                        return "yellow"  
+                                if (v== "Jazz")
+                                        return "brown" }
+
                 var init = newData[1990]
                 //console.log(init)
                         var bars = bounds
@@ -177,7 +199,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .attr("y", function(d, i) { return yScale(d.value.length); })
                                 .attr("width", xScale.bandwidth())
                                 .attr("height", function(d,i) { return dimensions.boundedHeight - yScale(d.value.length); })
-                                .style("fill","Purple")
+                                .style("fill", function(d,i) {return colorPicker(d.key)})
                                 .style("stroke", "black")
                                 .on('mouseover', function(d,i){
                                         d3.select(this).style('stroke', 'white')
@@ -185,11 +207,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                 .on('mouseout', function (d, i) {
                                         d3.select(this).style('stroke', 'black')
                                         d3.select(this).transition()
-                                        .style("fill","Purple")
                                 })
              
                                // .style("fill", function(d,i){return myColor(i)});*/
-               // console.log(init)
+                // console.log(init)
                  function updateBars(data){  
                         console.log(data)
                         bars.data(data)
