@@ -569,7 +569,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .text("a simple tooltip");
 
         var xScale1 = d3.scaleLinear()
-                .domain(d3.extent(dataset, d => +d.WorldwideSales))
+               // .domain(d3.extent(dataset, d => +d.WorldwideSales))
+                .domain([0, 45000000])
                // .range([dimensions4.margin.left ,dimensions4.boundedWidth - dimensions4.margin.right])
                 .range([0, dimensions4.boundedWidth])
                 
@@ -577,7 +578,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
              .domain(dataset.map(function(d){ return +d.Ranking}))
              .range([dimensions4.boundedHeight , 0])
              //.padding(.2)
-             .paddingOuter(.4)
+             .paddingOuter(.2)
              .paddingInner(.2)
         
         //graph labels
