@@ -532,12 +532,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         //console.log(allGroup)
                 var dimensions4 = ({
                         width: 700,
-                        height: 380,
+                        height: 500,
                         margin: {
-                        top: 0,
-                        right: 20,
-                        bottom: 80,
-                        left: 0
+                        top: 0, //0
+                        right: 20, //20
+                        bottom: 80, //80
+                        left: 40 //30
                         }
 
                 })
@@ -570,21 +570,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .text("a simple tooltip");
 
         var xScale1 = d3.scaleLinear()
-               // .domain(d3.extent(dataset, d => +d.WorldwideSales))
                 .domain([0, 45000000])
-               // .range([dimensions4.margin.left ,dimensions4.boundedWidth - dimensions4.margin.right])
                 .range([0, dimensions4.boundedWidth])
-                
+
         var yScale1 = d3.scaleBand()
              .domain(dataset.map(function(d){ return +d.Ranking}))
              .range([dimensions4.boundedHeight , 0])
-             //.padding(.2)
-             .paddingOuter(.2)
+             .paddingOuter(.1)
              .paddingInner(.2)
         
         //graph labels
         svg4.append("g")
-                .attr("transform", "translate(0," + dimensions4.boundedHeight + ")")
+                .attr("transform", "translate(40," + dimensions4.boundedHeight + ")")
                 .call(d3.axisBottom(xScale1))
                 .selectAll("text")  
                 .style("text-anchor", "end")
@@ -593,7 +590,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("transform", "rotate(-65)");
 
         svg4.append("g")
-                .call(d3.axisLeft(yScale1).tickSize(0));
+                .call(d3.axisLeft(yScale1).tickSize(0))
+                .attr('transform', `translate(${dimensions4.margin.left}, ${dimensions4.margin.top})`);
 
         //remove y axis bar
         yScale1.call(d => d.select(".domain").remove)
