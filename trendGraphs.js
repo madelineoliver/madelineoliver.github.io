@@ -537,8 +537,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         top: 0,
                         right: 20,
                         bottom: 80,
-                        left: 42
-                    }
+                        left: 0
+                        }
+
                 })
         
                 dimensions4.boundedWidth = dimensions4.width - dimensions4.margin.right - dimensions4.margin.left
