@@ -659,10 +659,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 return { Year: d.Year, Length: d.Minutes}
         })
         */
+       /*
         var dataset5 = Object.keys(dataset[0]).filter((d,i) => i !== 'columns');
         dataset5 = dataset.map((d) => {
-                return { 0: d.Year,  1: d.Minutes}
+                return {d.Year, d.Minutes}
         })
+        */
+
+        var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" || d == "Minutes" })
+
+        
+       
+        
         console.log(dataset5)
         //var dataset5 = dataset.filter(function(d,i) {return d != 'Year'})
         //console.log(dataset5)
@@ -673,7 +681,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         height: 500,
                         margin: {
                         top: 0, 
-                        right: 20, 
+                        right: 40, 
                         bottom: 90, 
                         left: 40 
                         }
@@ -689,15 +697,15 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("transform","translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
                 //console.log(dataset5.keys()) 
 
-                var dim = [Object.keys(dataset5[0])]
-                console.log(dim[0][0])
+               // var dim = [Object.keys(dataset5[0])]
+               // console.log(dim[0][0])
                 var y = {}
                 //console.log(dataset5[0].Year)
                 for (i in dataset5) {
                   //console.log(i)
                   var name = dataset5[i]
                   y[name] = d3.scaleLinear()
-                    .domain( d3.extent(dataset5, function(d,i) {return +d[name] }) )
+                    .domain( d3.extent(dataset5, function(d) {return +d[name] }) )
                     .range([dimensions5.boundedHeight, 0])
                 }
                 var x = d3.scalePoint()
@@ -705,21 +713,21 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .padding(1)
                 .domain(dataset5);
 
-                /*
+                
                   function path(d) {
-                        return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+                        return d3.line()(dataset5.map(function(p) { return [x(p), y[p](d[p])]; }));
                 }
 
                 // Draw the lines
-                svg
+                svg5
                 .selectAll("myPath")
-                .data(data)
+                .data(dataset)
                 .join("path")
                 .attr("d",  path)
                 .style("fill", "none")
                 .style("stroke", "#69b3a2")
                 .style("opacity", 0.5)
-                */
+                
 
                 svg5.selectAll("myAxis")
                 // For each dimension of the dataset I add a 'g' element:
@@ -729,12 +737,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
                 // And I build the axis with the call function
                 .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
-               /* // Add axis title
+               /// Add axis title
                 .append("text")
                 .style("text-anchor", "middle")
                 .attr("y", -9)
                 .text(function(d) { return d; })
-                .style("fill", "black")*/
+                .style("fill", "black")
                 
       }
       
