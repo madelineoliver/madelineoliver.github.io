@@ -642,16 +642,31 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         /************************************** code for Album length graph ***********************************************/   
         //console.log(allGroup)
-        var  alLength = []
+      /*  var  alLength = []
         for(var i in allGroup)
                 alLength.push(Array.from(d3.group( allGroup[i].value, d => d.AlbumLength ), ([key, value]) => ({key, value}))) 
         //console.log(alLength)
         var newData5 ={}
         for (var i=0; i < keys.length; i++) {
                 newData5[keys[i]] = alLength[i];
-        }
+        
+        
+       
+        }*/
+        /*
+        var dataset5 = dataset.filter((d,i) => i !== 'columns');
+        dataset5 = dataset.map((d) => {
+                return { Year: d.Year, Length: d.Minutes}
+        })
+        */
+        var dataset5 = Object.keys(dataset[0]).filter((d,i) => i !== 'columns');
+        dataset5 = dataset.map((d) => {
+                return { 0: d.Year,  1: d.Minutes}
+        })
+        console.log(dataset5)
+        //var dataset5 = dataset.filter(function(d,i) {return d != 'Year'})
+        //console.log(dataset5)
 
-        //console.log(newData5)
         function createGraph5(){
                 var dimensions5 = ({
                         width: 700,
@@ -672,18 +687,57 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("height", dimensions5.height + dimensions5.margin.top + dimensions.margin.bottom)
                 .append("g")
                 .attr("transform","translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
+                //console.log(dataset5.keys()) 
 
-                
-                /*var y = {}
-                for (i in dimensions) {
-                  name = dimensions[i]
+                var dim = [Object.keys(dataset5[0])]
+                console.log(dim[0][0])
+                var y = {}
+                //console.log(dataset5[0].Year)
+                for (i in dataset5) {
+                  //console.log(i)
+                  var name = dataset5[i]
                   y[name] = d3.scaleLinear()
-                    .domain( d3.extent(data, function(d) { return +d[name]; }) )
-                    .range([height, 0])
-                }*/
+                    .domain( d3.extent(dataset5, function(d,i) {return +d[name] }) )
+                    .range([dimensions5.boundedHeight, 0])
+                }
+                var x = d3.scalePoint()
+                .range([0, dimensions5.boundedWidth])
+                .padding(1)
+                .domain(dataset5);
 
+                /*
+                  function path(d) {
+                        return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+                }
 
+                // Draw the lines
+                svg
+                .selectAll("myPath")
+                .data(data)
+                .join("path")
+                .attr("d",  path)
+                .style("fill", "none")
+                .style("stroke", "#69b3a2")
+                .style("opacity", 0.5)
+                */
+
+                svg5.selectAll("myAxis")
+                // For each dimension of the dataset I add a 'g' element:
+                .data(dataset5).enter()
+                .append("g")
+                // I translate this element to its right position on the x axis
+                .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+                // And I build the axis with the call function
+                .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+               /* // Add axis title
+                .append("text")
+                .style("text-anchor", "middle")
+                .attr("y", -9)
+                .text(function(d) { return d; })
+                .style("fill", "black")*/
+                
       }
+      
         createGraph5()
         /*********************************create drop down and update based on dropdown selection***************************************************************************/
         //note to update other graphs you need to go through creategraph -> drawgraph -> and then the updating/ changing function is called
