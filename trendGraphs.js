@@ -669,7 +669,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         */
 
         //getting the keys for the 2 y axis- years and minutes for the time scale 
-        var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" || d == "Hours" || d == "Minutes" || d== "Seconds" })
+        var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" ||  d == "Minutes"})
 
         
        
@@ -680,8 +680,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         function createGraph5(){
                 var dimensions5 = ({
-                        width: 1000,
-                        height: 500,
+                        width: 900,
+                        height: 450,
                         margin: {
                         top: 0, 
                         right: 20, 
@@ -710,18 +710,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                   y[name] = d3.scaleLinear()
                     .domain( d3.extent(dataset, function(d) {return +d[name] }) )
                     .range([dimensions5.boundedHeight, 0])
+                    
                 }
                 var x = d3.scalePoint()
                 .range([0, dimensions5.boundedWidth])
                 .padding(.5)
                 .domain(dataset5);
 
+          
                 //color scale for ranking 
                 var color = d3.scaleOrdinal()
-                        .domain([d3.extent(dataset, d => d.Ranking)])
+                        .domain([d3.extent(dataset, d => d.Year)])
                         .range(["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"])
-
-
                   function path(d) {
                         return d3.line()(dataset5.map(function(p) { return [x(p), y[p](d[p])]; }));
                 }
@@ -744,8 +744,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 // I translate this element to its right position on the x axis
                 .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
                 // And I build the axis with the call function
-                .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+                .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d]).ticks(32)) })
                /// Add axis title
+              // .tickSize(5)
                 .append("text")
                 .style("text-anchor", "middle")
                 .attr("y", -9)
