@@ -557,10 +557,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("left", "28%")
                 .style("color", "black")
                 .text("a simple tooltip");
-           
+        
         var xScale1 = d3.scaleLinear()
                 .domain([0, 50000000])
                 .range([0, dimensions4.boundedWidth])
+        
 
         var yScale1 = d3.scaleBand()
              .domain(dataset.map(function(d){ return +d.Ranking}))
@@ -601,7 +602,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var initial = newData_main[1990]
       //  console.log(initial)
 
-        myColor = ["#08306b","#0b4d94","#1c6aaf","#3787c0","#59a1cf","#82badb","#abcfe6","#cadef0","#e1edf8","#f7fbff"]
+        myColor = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"]
+
         var bars2 = bounds2
                 .append("g")
                 .selectAll("rect")
@@ -667,7 +669,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         */
 
         //getting the keys for the 2 y axis- years and minutes for the time scale 
-        var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" || d == "Minutes" })
+        var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" || d == "Hours" || d == "Minutes" || d== "Seconds" })
 
         
        
@@ -678,13 +680,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         function createGraph5(){
                 var dimensions5 = ({
-                        width: 900,
+                        width: 1000,
                         height: 500,
                         margin: {
                         top: 0, 
-                        right: 40, 
-                        bottom: 90, 
-                        left: 40 
+                        right: 20, 
+                        bottom: 50, 
+                        left: 20
                         }
                 })
 
@@ -711,10 +713,15 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 }
                 var x = d3.scalePoint()
                 .range([0, dimensions5.boundedWidth])
-                .padding(1)
+                .padding(.5)
                 .domain(dataset5);
 
-                /*
+                //color scale for ranking 
+                var color = d3.scaleOrdinal()
+                        .domain([d3.extent(dataset, d => d.Ranking)])
+                        .range(["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"])
+
+
                   function path(d) {
                         return d3.line()(dataset5.map(function(p) { return [x(p), y[p](d[p])]; }));
                 }
@@ -726,9 +733,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .join("path")
                 .attr("d",  path)
                 .style("fill", "none")
-                .style("stroke", "#69b3a2")
-                .style("opacity", 0.5)
-                */
+                .style("stroke", function(d) {return color(d.Ranking)} )
+                .style("opacity", 0.2)
+                
 
                 svg5.selectAll("myAxis")
                 // For each dimension of the dataset I add a 'g' element:
