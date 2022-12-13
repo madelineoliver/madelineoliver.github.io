@@ -513,7 +513,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         //console.log(allGroup)
                 var dimensions4 = ({
                         width: 700,
-                        height: 500,
+                        height: 600,
                         margin: {
                         top: 0, //0
                         right: 20, //20
@@ -557,8 +557,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var yScale1 = d3.scaleBand()
              .domain(dataset.map(function(d){ return +d.Ranking}))
              .range([dimensions4.boundedHeight , 0])
-             .paddingOuter(.1)
-             .paddingInner(.2)
+             .paddingOuter(.5)
+             .paddingInner(.5)
+             
         
         svg4.append("g")
                 .attr("transform", "translate(40," + dimensions4.boundedHeight + ")")
@@ -606,6 +607,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("x", xScale1(0))
                 .attr("fill", function(d, i){return myColor[i]})
                 .style("stroke", "#000")
+                .style("margin-bottom", "20px")
                 .on('mouseover', function(d,i){
                         
                         d3.select(this).style('stroke', 'white')
@@ -657,7 +659,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         */
 
         //getting the keys for the 2 y axis- years and minutes for the time scale 
-        var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" ||  d == "Minutes"})
+        var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" ||  d == "Minutes" || d == "Tracks"})
 
         //console.log(dataset5)
         //var dataset5 = dataset.filter(function(d,i) {return d != 'Year'})
@@ -722,7 +724,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("fill", "none")
                 .style("stroke", function(d) {return color(d.Ranking)} )
                 .style("stroke-width", 1.5 )
-                .style("opacity", "0.5")
+                .style("opacity", "0.3")
                 .on("mouseover",  function(d, i){
                         var selected_rank = d.Ranking
                          console.log(selected_rank)
