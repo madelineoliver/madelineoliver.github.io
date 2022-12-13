@@ -666,18 +666,19 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         })
         */
 
+        //getting the keys for the 2 y axis- years and minutes for the time scale 
         var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" || d == "Minutes" })
 
         
        
         
-        console.log(dataset5)
+        //console.log(dataset5)
         //var dataset5 = dataset.filter(function(d,i) {return d != 'Year'})
         //console.log(dataset5)
 
         function createGraph5(){
                 var dimensions5 = ({
-                        width: 700,
+                        width: 900,
                         height: 500,
                         margin: {
                         top: 0, 
@@ -705,7 +706,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                   //console.log(i)
                   var name = dataset5[i]
                   y[name] = d3.scaleLinear()
-                    .domain( d3.extent(dataset5, function(d) {return +d[name] }) )
+                    .domain( d3.extent(dataset, function(d) {return +d[name] }) )
                     .range([dimensions5.boundedHeight, 0])
                 }
                 var x = d3.scalePoint()
@@ -713,11 +714,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .padding(1)
                 .domain(dataset5);
 
-                
+                /*
                   function path(d) {
                         return d3.line()(dataset5.map(function(p) { return [x(p), y[p](d[p])]; }));
                 }
-
+                
                 // Draw the lines
                 svg5
                 .selectAll("myPath")
@@ -727,7 +728,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("fill", "none")
                 .style("stroke", "#69b3a2")
                 .style("opacity", 0.5)
-                
+                */
 
                 svg5.selectAll("myAxis")
                 // For each dimension of the dataset I add a 'g' element:
