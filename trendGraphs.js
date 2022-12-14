@@ -500,7 +500,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .call(d3.axisLeft(yScale));
       
          }
-        /************************************** code for main ranking graph ***********************************************/   
+        /************************************** code for main ranking graph ***********************************************************/   
         //get rankings for Each year
         var  ranking = []
         for(var i in allGroup)
@@ -588,6 +588,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("text-anchor", "middle")
                 .text("Ranking");
 
+
+
+
         //remove y axis bar
         yScale1.call(d => d.select(".domain").remove)
 
@@ -596,6 +599,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         myColor = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"]
 
+        
         var bars2 = bounds2
                 .append("g")
                 .selectAll("rect")
@@ -608,12 +612,19 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("fill", function(d, i){return myColor[i]})
                 .style("stroke", "#000")
                 .style("margin-bottom", "20px")
+
                 .on('mouseover', function(d,i){
                         
-                        d3.select(this).style('stroke', 'white')
+                        d3.select(this).style('stroke', 'black')
                         tooltip.html("<strong>Album Name: </strong>" + i.value[0].Album + "</br>" + "<strong> World Wide Sales: </strong>" + i.value[0].WorldwideSales + "</br>" + "<strong>Artist: </strong>" + i.value[0].Artist + "</br>" +  "<strong>CD's: </strong>" +  i.value[0].CDs + "</br>" + "<strong>Tracks: </strong>" +  i.value[0].Tracks + "</br>" + "<strong>Album Length: </strong>" +  i.value[0].AlbumLength + "</br>" + "<strong>Genre: </strong>" + i.value[0].Genre).style("visibility", "visible");
                         d3.select(this).attr("r", 6);
-                        createGraph5(i.value[0].Ranking)
+                        //createGraph5(i.value[0].Year, i.value[0].Ranking)
+                        svg5.filter(function(e,j){
+                                return j[0] == i.value[0].Year && j.Ranking == i.value[0].Ranking; 
+                        })
+                        console.log(e.Year)
+                        
+                        
                 }
                 )
                 .on('mouseout', function(d,i){
@@ -622,9 +633,73 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         d3.select(this).transition()
                         .attr("r", 5);
                         
-                })          
+                }) 
+                
+        
+
+        /*
+        let bars2 = bounds2.selectAll('.bar')
+                .data(initial)
+                .enter()
+                .append("g")
+
+        console.log(initial)
+
+        
+        bars2.append('rect')
+                .attr("width",function(d,i) {return xScale1(d.value[0].WorldwideSales);})
+                .attr("height", yScale1.bandwidth())
+                .attr("y", function(d,i) {return yScale1(d.key)})
+                .attr("x", xScale1(0))
+                .attr("fill", function(d, i){return myColor[i]})
+                .style("stroke", "#000")
+                .style("margin-bottom", "20px")
+
+                .on('mouseover', function(d,i){
+                        
+                        d3.select(this).style('stroke', 'black')
+                        tooltip.html("<strong>Album Name: </strong>" + i.value[0].Album + "</br>" + "<strong> World Wide Sales: </strong>" + i.value[0].WorldwideSales + "</br>" + "<strong>Artist: </strong>" + i.value[0].Artist + "</br>" +  "<strong>CD's: </strong>" +  i.value[0].CDs + "</br>" + "<strong>Tracks: </strong>" +  i.value[0].Tracks + "</br>" + "<strong>Album Length: </strong>" +  i.value[0].AlbumLength + "</br>" + "<strong>Genre: </strong>" + i.value[0].Genre).style("visibility", "visible");
+                        d3.select(this).attr("r", 6);
+                        //createGraph5(i.value[0].Ranking)
+                }
+                )
+                .on('mouseout', function(d,i){
+                        d3.select(this).style('stroke', 'black')
+                        tooltip.html(``).style("visibility", "hidden");
+                        d3.select(this).transition()
+                        .attr("r", 5);
+                        
+                })  
+
+        bars2.append("text")
+                .text(function(d) { return d.value[0].Album;})
+                .attr("x", 0)
+                .attr("y", function(d,i) {return yScale1(d.key) + 40})
+        .attr("font-family" , "sans-serif")
+        .attr("font-size" , "14px")
+        .attr("fill" , "black")
+        //.attr("text-anchor", "middle");
+        */
+        
+        
+
+        
+                
+        /*
+        bars2.append("text")
+                .text("testing")
+                .attr("x", function(d){
+                        return xScale1(d) + xScale1.bandwidth()/2;
+                    })
+                .attr("y", function(d){
+                        return yScale1(data[d]) - 5;
+                    })
+                    */
+
+        
 
         function updateBars2(data){  
+                
                 console.log(data)
                 bars2.data(data)
                 .transition()
@@ -632,7 +707,66 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("height", yScale1.bandwidth())
                 .attr("y", function(d,i) {return yScale1(d.key)})
                 .attr("x", xScale1(0))  
-                //console.log(data => data.value.length)       
+                //console.log(data => data.value.length)    
+                
+        }
+                /*
+                let bars2 = bounds2.selectAll('.bar')
+                .data(data)
+               
+                
+                var barexit = bars2
+                        .exit()
+                        .remove()
+
+                var barenter = bars2.enter()
+                        .enter()
+                        .append("g")
+
+                bars2.append('rect')
+                .attr("width",function(d,i) {return xScale1(d.value[0].WorldwideSales);})
+                .attr("height", yScale1.bandwidth())
+                .attr("y", function(d,i) {return yScale1(d.key)})
+                .attr("x", xScale1(0))
+                .attr("fill", function(d, i){return myColor[i]})
+                .style("stroke", "#000")
+                .style("margin-bottom", "20px")
+
+                .on('mouseover', function(d,i){
+                        
+                        d3.select(this).style('stroke', 'black')
+                        tooltip.html("<strong>Album Name: </strong>" + i.value[0].Album + "</br>" + "<strong> World Wide Sales: </strong>" + i.value[0].WorldwideSales + "</br>" + "<strong>Artist: </strong>" + i.value[0].Artist + "</br>" +  "<strong>CD's: </strong>" +  i.value[0].CDs + "</br>" + "<strong>Tracks: </strong>" +  i.value[0].Tracks + "</br>" + "<strong>Album Length: </strong>" +  i.value[0].AlbumLength + "</br>" + "<strong>Genre: </strong>" + i.value[0].Genre).style("visibility", "visible");
+                        d3.select(this).attr("r", 6);
+                        //createGraph5(i.value[0].Ranking)
+                }
+                )
+                .on('mouseout', function(d,i){
+                        d3.select(this).style('stroke', 'black')
+                        tooltip.html(``).style("visibility", "hidden");
+                        d3.select(this).transition()
+                        .attr("r", 5);
+                        
+                })  
+
+        bars2.append("text")
+                .text(function(d) { return d.value[0].Album;})
+                .attr("x", 0)
+                .attr("y", function(d,i) {return yScale1(d.key) + 40})
+        .attr("font-family" , "sans-serif")
+        .attr("font-size" , "14px")
+        .attr("fill" , "black")
+
+
+
+                
+
+                bars2.append("text")
+                .text(function(d) { return d.value[0].Album;})
+                .attr("x", 0)
+                .attr("y", function(d,i) {return yScale1(d.key) + 40})
+                .attr("font-family" , "sans-serif")
+                .attr("font-size" , "14px")
+                .attr("fill" , "black")
                 }
 
         /************************************** code for Album length graph ***********************************************/   
@@ -661,11 +795,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         //getting the keys for the 2 y axis- years and minutes for the time scale 
         var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" ||  d == "Minutes" || d == "Tracks"})
 
+        console.log(dataset5)
+
         //console.log(dataset5)
         //var dataset5 = dataset.filter(function(d,i) {return d != 'Year'})
         //console.log(dataset5)
 
-        function createGraph5(rank){
+        
                 var dimensions5 = ({
                         width: 900,
                         height: 450,
@@ -686,6 +822,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .append("g")
                 .attr("transform","translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
                 //console.log(dataset5.keys()) 
+
+
+                
 
                // var dim = [Object.keys(dataset5[0])]
                // console.log(dim[0][0])
@@ -714,38 +853,56 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 function path(d) {
                         return d3.line()(dataset5.map(function(p) { return [x(p), y[p](d[p])]; }));
                 }
+
                 // Draw the lines
                 svg5
                 .selectAll("myPath")
                 .data(dataset)
                 .join("path")
-                .attr("class", function (d) { return "line " + d.Ranking } ) 
                 .attr("d",  path)
                 .style("fill", "none")
                 .style("stroke", function(d) {return color(d.Ranking)} )
+                //.attr("class" , function(d) {return "line " + d.Ranking})
+                .attr("id", function(d) {return 'id_' + d.Ranking})
+                .attr("class", "line")
                 .style("stroke-width", 1.5 )
                 .style("opacity", "0.3")
-                .on("mouseover",  function(d, i){
-                        var selected_rank = d.Ranking
-                         console.log(selected_rank)
-                         // first every group turns grey
-                         d3.select(this)
-                           .transition().duration(200)
-                           .style("stroke", "black")
-                           .style("opacity", "1")
-                         // Second the hovered specie takes its color
-                         d3.selectAll( "." + selected_rank)
-                           .transition().duration(200)
-                           .style("stroke", color(selected_rank))
-                           .style("opacity", "1")
-                 })
-                .on("mouseleave",   function(d,i){
+                .on("mouseover", function(d,i){
+                        d3.selectAll('.line')
+                        .transition().duration(200)
+                        .style("stroke", "lightgrey")
+                        .style("opacity", "0.2")
+
+                        var rank_chosen = i.Ranking
+                        d3.selectAll( '#id_'  + rank_chosen)
+                        .transition().duration(200)
+                        .style("stroke", color(rank_chosen))
+                        .style("opacity", "1")
+                        
+                        /*
+                        var rank_chosen = i.Ranking
+                        console.log(rank_chosen)
                         d3.selectAll(".line")
+                        .transition().duration(200)
+                        .style("stroke", "lightgrey")
+                        .style("opacity", "0.2")
+                          //first every group turns grey
+                          //Second the hovered specie takes its color
+                         d3.selectAll( ".line."  + rank_chosen)
+                           .transition().duration(200)
+                           .style("stroke", color(rank_chosen))
+                           .style("opacity", "1")
+                           */
+}                       )
+
+                .on("mouseleave",   function(d,i){
+                        d3.selectAll(".line ")
                           .transition()
                           //.duration(200).delay(1000)
                           .style("stroke", function(d){ return( color(d.Ranking))} )
                           .style("opacity", "0.5")
                 })
+
                 
                 svg5.selectAll("myAxis")
                 // For each dimension of the dataset I add a 'g' element:
@@ -762,7 +919,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .text(function(d) { return d; })
                 .style("fill", "black")  
 
-            //FUNCTION that highlights ranking based on bargraph selection     
+            //FUNCTION that highlights data on G5  based on bargraph selection 
+            
+
+
+            
+            /*    
             function highlightG5(r){
                 d3.select(r)
                .transition()
@@ -771,10 +933,17 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 }
             highlightG5(rank)
 
-      }
+
+            function highlightG5(year, rank){
+               svg5.selectAll("myPath")
+                        .data(dataset)
+            }
+            */
+
+        
    
       
-        createGraph5(NaN)
+       
         /*********************************create drop down and update based on dropdown selection***************************************************************************/
         //note to update other graphs you need to go through creategraph -> drawgraph -> and then the updating/ changing function is called
         var dropdownChange = function(){
