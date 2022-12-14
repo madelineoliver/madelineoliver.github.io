@@ -606,7 +606,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .data(initial)
                 .join("rect")
                 .attr("width",function(d,i) {return xScale1(d.value[0].WorldwideSales);})
-                .attr("name", function(d,i) {return d.value[0].Year + "_" + d.value[0].Ranking})
+                .attr("class", function(d,i) {return d.value[0].Ranking + "_" + d.value[0].Year})
                 .attr("height", yScale1.bandwidth())
                 .attr("y", function(d,i) {return yScale1(d.key)})
                 .attr("x", xScale1(0))
@@ -621,15 +621,22 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         d3.select(this).attr("r", 6);
                         
                         //when scrolling over a bar, highlight the element in the parallel graph 
+                        
                         d3.selectAll('.line')
                         .transition().duration(200)
-                        .style("stroke", "lightgrey")
-                        .style("opacity", "0.2")
+                        //.style("stroke", "lightgrey")
+                        .style("opacity", "0.05")
+                        
 
                         //select the element that matches on the parallel graph
                         var ranking = i.value[0].Ranking
+                        console.log(ranking)
                         var year_chosen = i.value[0].Year
-                        highlight(ranking, year_chosen)
+                        console.log(year_chosen)
+                        d3.selectAll("._" + ranking + "_" + year_chosen)
+                        .transition().duration(200)
+                        .style("opacity", "3")
+                        .style("stroke-width", "3px");
                         
 
                        
@@ -862,7 +869,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
             
                 //color scale for ranking 
                 var color = d3.scaleOrdinal()
-                        .domain([d3.extent(dataset, d => d.Year)])
+                        .domain([d3.extent(dataset, d => d.Ranking)])
                         .range(["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"])
                 
 
@@ -879,7 +886,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("fill", "none")
                 .style("stroke", function(d) {return color(d.Ranking)} )
                 .attr("id", function(d) {return 'id_' + d.Ranking})
-                .attr("class", function(d) { return 'line ' + d.Ranking + "_" + d.Year})
+                .attr("class", function(d) { return 'line ' + '_' + d.Ranking + '_' + d.Year})
                 //.attr("class", function(d) { return d.Ranking + "_" + d.Year})
                 .style("stroke-width", 1.5 )
                 .style("opacity", "0.3")
