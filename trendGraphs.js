@@ -629,7 +629,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         //select the element that matches on the parallel graph
                         var ranking = i.value[0].Ranking
                         var year_chosen = i.value[0].Year
-                        svg5.filter( )
+                        highlight(ranking, year_chosen)
+                        
+
                        
                         
                         
@@ -877,7 +879,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("fill", "none")
                 .style("stroke", function(d) {return color(d.Ranking)} )
                 .attr("id", function(d) {return 'id_' + d.Ranking})
-                .attr("class", "line")
+                .attr("class", function(d) { return 'line ' + d.Ranking + "_" + d.Year})
+                //.attr("class", function(d) { return d.Ranking + "_" + d.Year})
                 .style("stroke-width", 1.5 )
                 .style("opacity", "0.3")
                 .on("mouseover", function(d,i){
@@ -886,6 +889,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .style("stroke", "lightgrey")
                         .style("opacity", "0.1")
 
+                        //highlighting based on rank 
                         var rank_chosen = i.Ranking
                         var year = i.Year
                         d3.selectAll( '#id_'  + rank_chosen)
@@ -935,7 +939,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
             //FUNCTION that highlights data on G5  based on bargraph selection 
             
-
 
             
             /*    
