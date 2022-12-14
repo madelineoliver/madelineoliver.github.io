@@ -597,7 +597,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var initial = newData_main[1990]
       //  console.log(initial)
 
-        myColor = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"]
+        
+        myColor = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab","#4e79a7"]
 
         
         var bars2 = bounds2
@@ -610,7 +611,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("height", yScale1.bandwidth())
                 .attr("y", function(d,i) {return yScale1(d.key)})
                 .attr("x", xScale1(0))
-                .attr("fill", function(d, i){return myColor[i]})
+                .attr("fill", function(d, i){return myColor[d.value[0].Ranking]})
                 .style("stroke", "#000")
                 .style("margin-bottom", "20px")
 
@@ -653,7 +654,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         d3.selectAll(".line ")
                         .transition()
                         //.duration(200).delay(1000)
-                        .style("stroke", function(d){ return( color(d.Ranking))} )
+                        .style("stroke", function(d){ return( myColor[d.Ranking])} )
                         .style("opacity", "0.5")
                         
                 }) 
@@ -866,12 +867,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .padding(.5)
                 .domain(dataset5);
 
-                
-                //color scale for ranking 
+            
                 var color = d3.scaleOrdinal()
-                        .domain([d3.extent(dataset, d => d.Ranking)])
+                        .domain([d3.extent(dataset, d => d.Year)])
                         .range(["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"])
-                
+
+
 
                 function path(d) {
                         return d3.line()(dataset5.map(function(p) { return [x(p), y[p](d[p])]; }));
@@ -884,7 +885,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .join("path")
                 .attr("d",  path)
                 .style("fill", "none")
-                .style("stroke", function(d) {return color(d.Ranking)} )
+                .style("stroke", function(d) {return color(d.Ranking - 1)} )
                 .attr("id", function(d) {return 'id_' + d.Ranking})
                 .attr("class", function(d) { return 'line ' + '_' + d.Ranking + '_' + d.Year})
                 //.attr("class", function(d) { return d.Ranking + "_" + d.Year})
@@ -901,8 +902,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         var year = i.Year
                         d3.selectAll( '#id_'  + rank_chosen)
                         .transition().duration(200)
-                        .style("stroke", color(rank_chosen))
+                        .style("stroke", color(rank_chosen - 1))
                         .style("opacity", "1")
+
+                        console.log(myColor[rank_chosen])
+                        console.log(rank_chosen)
                         
                         /*
                         var rank_chosen = i.Ranking
@@ -924,7 +928,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         d3.selectAll(".line ")
                           .transition()
                           //.duration(200).delay(1000)
-                          .style("stroke", function(d){ return( color(d.Ranking))} )
+                          .style("stroke", function(d){ return( myColor[d.Ranking])} )
                           .style("opacity", "0.5")
                 })
 
