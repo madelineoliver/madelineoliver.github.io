@@ -419,7 +419,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr('class', 'text')
                         .attr("transform", "rotate(-90)")
                         .attr("x", -(dimensions3.boundedHeight/2 ))
-                        .attr("y",-80)
+                        .attr("y",-40)
                         .style("text-anchor", "middle")
                         .text("Avg. # of Tracks (per Year)");
 
@@ -512,8 +512,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         }
         //console.log(allGroup)
                 var dimensions4 = ({
-                        width: 700,
-                        height: 600,
+                        width: 600,
+                        height: 550,
                         margin: {
                         top: 0, //0
                         right: 20, //20
@@ -827,7 +827,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
         
                 var dimensions5 = ({
-                        width: 900,
+                        width: 1000,
                         height: 450,
                         margin: {
                         top: 0, 
