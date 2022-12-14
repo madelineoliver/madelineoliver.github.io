@@ -866,7 +866,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .padding(.5)
                 .domain(dataset5);
 
-            
+                
                 //color scale for ranking 
                 var color = d3.scaleOrdinal()
                         .domain([d3.extent(dataset, d => d.Ranking)])
