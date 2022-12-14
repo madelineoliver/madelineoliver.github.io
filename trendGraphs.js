@@ -606,6 +606,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .data(initial)
                 .join("rect")
                 .attr("width",function(d,i) {return xScale1(d.value[0].WorldwideSales);})
+                .attr("name", function(d,i) {return d.value[0].Year + "_" + d.value[0].Ranking})
                 .attr("height", yScale1.bandwidth())
                 .attr("y", function(d,i) {return yScale1(d.key)})
                 .attr("x", xScale1(0))
@@ -615,14 +616,21 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 .on('mouseover', function(d,i){
                         
-                        d3.select(this).style('stroke', 'black')
+                        d3.select(this).style('stroke', 'white')
                         tooltip.html("<strong>Album Name: </strong>" + i.value[0].Album + "</br>" + "<strong> World Wide Sales: </strong>" + i.value[0].WorldwideSales + "</br>" + "<strong>Artist: </strong>" + i.value[0].Artist + "</br>" +  "<strong>CD's: </strong>" +  i.value[0].CDs + "</br>" + "<strong>Tracks: </strong>" +  i.value[0].Tracks + "</br>" + "<strong>Album Length: </strong>" +  i.value[0].AlbumLength + "</br>" + "<strong>Genre: </strong>" + i.value[0].Genre).style("visibility", "visible");
                         d3.select(this).attr("r", 6);
-                        //createGraph5(i.value[0].Year, i.value[0].Ranking)
-                        svg5.filter(function(e,j){
-                                return j[0] == i.value[0].Year && j.Ranking == i.value[0].Ranking; 
-                        })
-                        console.log(e.Year)
+                        
+                        //when scrolling over a bar, highlight the element in the parallel graph 
+                        d3.selectAll('.line')
+                        .transition().duration(200)
+                        .style("stroke", "lightgrey")
+                        .style("opacity", "0.2")
+
+                        //select the element that matches on the parallel graph
+                        var ranking = i.value[0].Ranking
+                        var year_chosen = i.value[0].Year
+                        svg5.filter( )
+                       
                         
                         
                 }
@@ -632,6 +640,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         tooltip.html(``).style("visibility", "hidden");
                         d3.select(this).transition()
                         .attr("r", 5);
+
+                        d3.selectAll(".line ")
+                        .transition()
+                        //.duration(200).delay(1000)
+                        .style("stroke", function(d){ return( color(d.Ranking))} )
+                        .style("opacity", "0.5")
                         
                 }) 
                 
@@ -862,7 +876,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("d",  path)
                 .style("fill", "none")
                 .style("stroke", function(d) {return color(d.Ranking)} )
-                //.attr("class" , function(d) {return "line " + d.Ranking})
                 .attr("id", function(d) {return 'id_' + d.Ranking})
                 .attr("class", "line")
                 .style("stroke-width", 1.5 )
@@ -871,9 +884,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         d3.selectAll('.line')
                         .transition().duration(200)
                         .style("stroke", "lightgrey")
-                        .style("opacity", "0.2")
+                        .style("opacity", "0.1")
 
                         var rank_chosen = i.Ranking
+                        var year = i.Year
                         d3.selectAll( '#id_'  + rank_chosen)
                         .transition().duration(200)
                         .style("stroke", color(rank_chosen))
