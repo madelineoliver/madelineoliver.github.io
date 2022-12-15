@@ -633,7 +633,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr('class', 'text')
                 .attr("transform", "translate(" + (dimensions4.boundedWidth/2) + " ," + (dimensions4.boundedHeight +75) + ")")
                 .style("text-anchor", "middle")
-                .text("World Wide Sales");
+                .text("World Wide Sales (Millions)");
         
         svg4.append("text")
                 .attr('class', 'text')
