@@ -468,6 +468,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 dimensions3.boundedWidth = dimensions3.width - dimensions3.margin.right - dimensions3.margin.left
                 dimensions3.boundedHeight = dimensions3.height - dimensions3.margin.top - dimensions3.margin.bottom
 
+
+                var tip3 = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0)
+
                 var svg3 = d3.select("#vis1")
                         .style("width", dimensions3.width)
                         .style("height", dimensions3.height)
@@ -548,16 +553,29 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("fill", "#BEAEB4") 
                         .style("stroke", "#670067")
                         .on('mouseover', function(d,i){
-                                tooltip.html("Year: " + i[0] + "</br>" +  "Avg. Tracks: " +i[1]).style("visibility", "visible");
+                                
                                 d3.select(this).transition()
                                 .attr("r", 6)
                                 .attr("fill", "#FDFD96")
+
+                                var x = d.pageX;
+                                var y = d.pageY; 
+
+                                tip3.style("opacity", 1)
+                                        .html("Year: " + i[0] + "</br>" +  "Avg. Tracks: " +i[1])
+                                        .style("left", (x + 15) + "px")
+                                        .style("top", (y + 15) + "px")
+
                         })
                         .on('mouseout', function (d, i) {
-                                tooltip.html(``).style("visibility", "hidden");
+
                                 d3.select(this).transition()
                                 .attr("r", 4.5)
                                 .attr("fill", "#BEAEB4") 
+
+                                tip3.style("opacity", 0)
+
+
                         })
                         .attr("cx", d => xScale(d[0]))
                         .attr("cy", d => yScale( d[1]))
