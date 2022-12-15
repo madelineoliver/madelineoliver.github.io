@@ -1,3 +1,5 @@
 # madelineoliver.github.io
 
-This is the README 
+Group 9 
+
+Madeline Oliver and Kristina Zuniga 
