@@ -19,6 +19,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var lineTwo= NaN
 
 
+        //converting Hip hop and r&b to be usable as class names
+        /*
+        function convert_names(name){
+                if(name == "Hip Hop")
+                        return "hiphop"
+                else if(name == "R&B")
+                        return "rb"
+                else return name 
+        }
+        */
+
+
         /**********************************************code for Genre bar graph*******************************************************************************/
                 
                 //get Genres for Each year 
@@ -211,14 +223,15 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                                 //.style("stroke", "lightgrey")
                                                 .style("opacity", "0.05")
                                         
-
+                                        /*
                                         var genre_chosen = i.key
+                                        genre_chosen = convert_names(genre_chosen)
                                         console.log(genre_chosen)
                                         d3.selectAll("." + genre_chosen)
                                         .transition().duration(200)
                                         .style("opacity", "1")
                                        // .style("stroke-width", "3px");
-                                        
+                                        */
                                 })
                                 .on('mouseout', function (d, i) {
                                         d3.selectAll('.bars')
@@ -625,7 +638,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .data(initial)
                 .join("rect")
                 .attr("width",function(d,i) {return xScale1(d.value[0].WorldwideSales);})
-                .attr("class", function(d,i) {return 'bars ' + d.value[0].Ranking + "_" + d.value[0].Year + " " + d.value[0].Genre})
+                .attr("class", function(d,i) {return 'bars ' + d.value[0].Ranking + "_" + d.value[0].Year })
                 .attr("height", yScale1.bandwidth())
                 .attr("y", function(d,i) {return yScale1(d.key)})
                 .attr("x", xScale1(0))
