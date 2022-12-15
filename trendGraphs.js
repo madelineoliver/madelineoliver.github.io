@@ -229,14 +229,24 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                                 //.style("stroke", "lightgrey")
                                                 .style("opacity", "0.05")
                                         
-                                        
                                         var genre_chosen = i.key
-                                        //genre_chosen = convert_names(genre_chosen)
                                         console.log(genre_chosen)
                                         d3.selectAll("." + genre_chosen)
                                         .transition().duration(200)
                                         .style("opacity", "1")
-                                       // .style("stroke-width", "3px");
+
+
+                                        d3.selectAll('.line')
+                                                .transition().duration(200)
+                                                //.style("stroke", "lightgrey")
+                                                .style("opacity", "0.05")
+
+                                        
+                                        d3.selectAll("." + genre_chosen + "_lines")
+                                                .transition().duration(200)
+                                                .style("opacity", "1")
+
+
                                         
                                 })
                                 .on('mouseout', function (d, i) {
@@ -244,6 +254,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                         .transition().duration(200)
                                         //.style("stroke", "lightgrey")
                                         .style("opacity", "1")
+
+                                        d3.selectAll('.line')
+                                                .transition().duration(200)
+                                                //.style("stroke", "lightgrey")
+                                                .style("opacity", "0.3")
+
+
+
                                 })
              
                                // .style("fill", function(d,i){return myColor(i)});*/
@@ -257,7 +275,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("y", function(d, i) { return yScale(d.value.length); })
                         .attr("height",  function(d,i) { return dimensions.boundedHeight - yScale(d.value.length)})   
                         .style("fill", "#F7CAC9")
-                        console.log(function(d) {return d.key})      
+                       
                 }
             
                 //var init = newData[1990]
@@ -928,7 +946,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("fill", "none")
                 .style("stroke", function(d) {return color(d.Ranking - 1)} )
                 .attr("id", function(d) {return 'id_' + d.Ranking})
-                .attr("class", function(d) { return 'line ' + '_' + d.Ranking + '_' + d.Year + ' ' + d.Genre})
+                .attr("class", function(d) { return 'line ' + '_' + d.Ranking + '_' + d.Year + ' ' + d.Genre + '_lines'})
                 //.attr("class", function(d) { return d.Ranking + "_" + d.Year})
                 .style("stroke-width", 1.5 )
                 .style("opacity", "0.3")
