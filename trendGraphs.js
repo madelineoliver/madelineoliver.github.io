@@ -312,7 +312,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 //tooltip attempt 
                 
-                var tip = d3.select("body").append("div")
+                var tip2 = d3.select("body").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                 
@@ -405,42 +405,42 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .style("fill", "none");
                 lineTwo = line2
                 
-                //dots
-                        
-                        var circles = svg2.selectAll('.circle')
-                        .data(avg_array)
-                        .enter()
-                        .append('circle')
-                        .attr("class", "update") 
-                        .attr("cx",d=> xScale(d[0]))
-                        .attr("cy", d => yScale(d[1]))
-                        .attr("r", 4.5)
-                        .attr("fill", "#68A7AD") 
-                        .style("stroke", "navy")
-                        .on('mouseover', function(d,i){
-                               var x = d.pageX;
-                               var y = d.pageY; 
-                                /*
-                                tooltip.html("Year: " + i[0] + "</br>" + "Avg. Sales: " +i[1]).style("visibility", "visible");
-                                d3.select(this).transition()
+                
+                //adding circles
+                var circles = svg2.selectAll('.circle')
+                .data(avg_array)
+                .enter()
+                .append('circle')
+                .attr("class", "update") 
+                .attr("cx",d=> xScale(d[0]))
+                .attr("cy", d => yScale(d[1]))
+                .attr("r", 4.5)
+                .attr("fill", "#68A7AD") 
+                .style("stroke", "navy")
+                .on('mouseover', function(d,i){
+
+                        d3.select(this).transition()
                                 .attr("r", 6)
                                 .attr("fill", "#FDFD96") 
-                                */
-                        tip.style("opacity", 1)
-                                .html(d.country + "<br/> Gold: " + d.gold + "<br/> Silver: " + d.silver)
-                                .style("left", (x) + "px")
-                                .style("top", (y) + "px")
-                                
-                                
-                        })
-                        .on('mouseout', function (d, i) {
-                                tooltip.html(``).style("visibility", "hidden");
-                                d3.select(this).transition()
-                                .attr("r", 5)
-                                .attr("fill", "#68A7AD") 
-                                
-                        })
-        }
+
+                       var x = d.pageX;
+                       var y = d.pageY; 
+
+                        tip2.style("opacity", 1)
+                                .html("Year: " + i[0] + "</br>" + "Avg. Sales: " +i[1])
+                                .style("left", (x + 15) + "px")
+                                .style("top", (y + 15) + "px")      
+                })
+                .on('mouseout', function (d, i) {
+
+                        tip2.style("opacity", 0)
+                        
+                        
+                        d3.select(this).transition()
+                        .attr("r", 5)
+                        .attr("fill", "#68A7AD")        
+                })
+}         
  
 
         /************************************************code for avg Tracks graph****************************************************************************/
