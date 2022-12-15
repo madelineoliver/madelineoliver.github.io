@@ -856,7 +856,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         var y = d.pageY; 
 
                         tip5.style("opacity", 1)
-                                .html("<strong>Tracks: </strong>" + i.Tracks + "</br>" + "<strong>Minutes: </strong>" + i.Minutes)
+                                .html("<strong>Album Name: </strong>" + i.Album + "</br>" + "<strong>Artist: </strong>" + i.Artist + "</br>" +  "<strong>Year: <strong>" + i.Year + "</br>" + "<strong>Tracks: </strong>" + i.Tracks + "</br>" + "<strong>Minutes: </strong>" + i.Minutes)
                                 .style("left", (x + 15) + "px")
                                 .style("top", (y + 15) + "px")       
                 })
