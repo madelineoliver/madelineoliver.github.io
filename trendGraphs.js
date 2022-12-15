@@ -628,20 +628,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var bounds2 = svg4.append("g")
                 .style("transform", `translate(${dimensions4.margin.left}px, ${dimensions4.margin.top}px)`)
 
-        const tooltip = d3.select("body")
-                .append("div")
-                .attr("class","d3-tooltip")
-                .style("position", "absolute")
-                .style("z-index", "10")
-                .style("visibility", "hidden")
-                .style("width", "250px")
-                .style("padding", "10px")
-                .style("background", "#c68c53")
-                .style("border-radius", "5px")
-                .style("top", "90px")
-                .style("left", "490px")
-                .style("color", "black")
-                .text("a simple tooltip");
+        
+        var tip4 = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
         
         var xScale1 = d3.scaleLinear()
                 .domain([0, 50000000])
@@ -712,9 +702,16 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .on('mouseover', function(d,i){
                         
                         d3.select(this).style('stroke', 'white')
-                        tooltip.html("<strong>Album Name: </strong>" + i.value[0].Album + "</br>" + "<strong> World Wide Sales: </strong>" + i.value[0].WorldwideSales + "</br>" + "<strong>Artist: </strong>" + i.value[0].Artist + "</br>" +  "<strong>CD's: </strong>" +  i.value[0].CDs + "</br>" + "<strong>Tracks: </strong>" +  i.value[0].Tracks + "</br>" + "<strong>Album Length: </strong>" +  i.value[0].AlbumLength + "</br>" + "<strong>Genre: </strong>" + i.value[0].Genre).style("visibility", "visible");
                         d3.select(this).attr("r", 6);
                         
+
+                        var x = d.pageX;
+                        var y = d.pageY; 
+
+                        tip4.style("opacity", 1)
+                                .html("<strong>Album Name: </strong>" + i.value[0].Album + "</br>" + "<strong>Artist: </strong>" + i.value[0].Artist + "</br>" +  "<strong> World Wide Sales: </strong>" + i.value[0].WorldwideSales)
+                                .style("left", (x + 15) + "px")
+                                .style("top", (y + 15) + "px")
                         //when scrolling over a bar, highlight the element in the parallel graph 
                         
                         d3.selectAll('.line')
@@ -732,18 +729,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .transition().duration(200)
                         .style("opacity", "3")
                         .style("stroke-width", "3px");
-                        
-
-                       
-                        
-                        
-                }
-                )
+                })
                 .on('mouseout', function(d,i){
                         d3.select(this).style('stroke', 'black')
-                        tooltip.html(``).style("visibility", "hidden");
                         d3.select(this).transition()
                         .attr("r", 5);
+
+                        tip4.style("opacity", 0)
 
                         d3.selectAll(".line ")
                         .transition()
@@ -946,7 +938,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 //console.log(dataset5.keys()) 
 
 
-                
+                var tip5 = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0)
 
                // var dim = [Object.keys(dataset5[0])]
                // console.log(dim[0][0])
@@ -986,14 +980,14 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("stroke", function(d) {return color(d.Ranking - 1)} )
                 .attr("id", function(d) {return 'id_' + d.Ranking})
                 .attr("class", function(d) { return 'line ' + '_' + d.Ranking + '_' + d.Year + ' ' + d.Genre + '_lines'})
-                //.attr("class", function(d) { return d.Ranking + "_" + d.Year})
                 .style("stroke-width", 1.5 )
                 .style("opacity", "0.3")
                 .on("mouseover", function(d,i){
+
                         d3.selectAll('.line')
                         .transition().duration(200)
                         .style("stroke", "lightgrey")
-                        .style("opacity", "0.1")
+                        .style("opacity", "0.05")
 
                         //highlighting based on rank 
                         var rank_chosen = i.Ranking
@@ -1001,33 +995,33 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         d3.selectAll( '#id_'  + rank_chosen)
                         .transition().duration(200)
                         .style("stroke", color(rank_chosen - 1))
+                        .style("opacity", ".8")
+
+                        //make specific line stand out more
+                        d3.select(this)
+                        .transition()
+                        .style("stroke-width", 3 )
                         .style("opacity", "1")
 
-                        console.log(myColor[rank_chosen])
-                        console.log(rank_chosen)
-                        
-                        /*
-                        var rank_chosen = i.Ranking
-                        console.log(rank_chosen)
-                        d3.selectAll(".line")
-                        .transition().duration(200)
-                        .style("stroke", "lightgrey")
-                        .style("opacity", "0.2")
-                          //first every group turns grey
-                          //Second the hovered specie takes its color
-                         d3.selectAll( ".line."  + rank_chosen)
-                           .transition().duration(200)
-                           .style("stroke", color(rank_chosen))
-                           .style("opacity", "1")
-                           */
-}                       )
+                        var x = d.pageX;
+                        var y = d.pageY; 
 
-                .on("mouseleave",   function(d,i){
+                        tip5.style("opacity", 1)
+                                .html("<strong>Tracks: </strong>" + i.Tracks + "</br>" + "<strong>Minutes: </strong>" + i.Minutes)
+                                .style("left", (x + 15) + "px")
+                                .style("top", (y + 15) + "px")       
+                })
+
+                .on("mouseleave", function(d,i){
                         d3.selectAll(".line ")
                           .transition()
                           //.duration(200).delay(1000)
                           .style("stroke", function(d){ return( myColor[d.Ranking])} )
-                          .style("opacity", "0.5")
+                          .style("stroke-width", 1.5 )
+                          .style("opacity", "0.3")
+
+
+                          tip5.style("opacity", 0)
                 })
 
                 
