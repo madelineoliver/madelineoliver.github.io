@@ -204,7 +204,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                if(v== "World")
                                         return "#B7C4CF"  
                                 if (v== "Jazz")
-                                        return "#DEB6AB"                        }
+                                        return "#DEB6AB" }
 
                 var init = newData[1990]
                 //console.log(init)
@@ -231,7 +231,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                                 .style("opacity", "0.05")
                                         
                                         var genre_chosen = i.key
-                                        console.log(genre_chosen)
+                                        var year = i.value[0].Year
+                                        console.log(year)
                                         d3.selectAll("." + genre_chosen)
                                         .transition().duration(200)
                                         .style("opacity", "1")
@@ -240,13 +241,18 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                         d3.selectAll('.line')
                                                 .transition().duration(200)
                                                 //.style("stroke", "lightgrey")
-                                                .style("opacity", "0.05")
+                                                .style("opacity", "0")
 
                                         
                                         d3.selectAll("." + genre_chosen + "_lines")
                                                 .transition().duration(200)
-                                                .style("opacity", "1")
+                                                .style("opacity", ".2")
 
+                                        d3.selectAll("." + genre_chosen + "_" + year)
+                                                .transition().duration(200)
+                                                .style("stroke-width", 3)
+                                                .style("opacity", 1)
+                                        
 
                                         
                                 })
@@ -979,7 +985,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("fill", "none")
                 .style("stroke", function(d) {return color(d.Ranking - 1)} )
                 .attr("id", function(d) {return 'id_' + d.Ranking})
-                .attr("class", function(d) { return 'line ' + '_' + d.Ranking + '_' + d.Year + ' ' + d.Genre + '_lines'})
+                .attr("class", function(d) { return 'line ' + '_' + d.Ranking + '_' + d.Year + ' ' + d.Genre + '_lines' + ' ' + d.Genre + '_' + d.Year})
                 .style("stroke-width", 1.5 )
                 .style("opacity", "0.3")
                 .on("mouseover", function(d,i){
