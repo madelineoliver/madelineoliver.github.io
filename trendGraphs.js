@@ -123,7 +123,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         left: 50
                         }
                 }
-           
+
+                
                 dimensions.boundedWidth = dimensions.width - dimensions.margin.right - dimensions.margin.left
                 dimensions.boundedHeight = dimensions.height - dimensions.margin.top - dimensions.margin.bottom
 
@@ -259,6 +260,9 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                                 .transition().duration(200)
                                                 //.style("stroke", "lightgrey")
                                                 .style("opacity", "0.3")
+                                
+                                d3.select(this).style('stroke', 'black')
+                                        
 
 
 
@@ -305,6 +309,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         function drawGraph2(dimensions2, data){
                 dimensions2.boundedWidth = dimensions2.width - dimensions2.margin.right - dimensions2.margin.left
                 dimensions2.boundedHeight = dimensions2.height - dimensions2.margin.top - dimensions2.margin.bottom
+
+                //tooltip attempt 
+                
+                var tip = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0)
+                
                
                 var svg2 = d3.select("#vis2")
                         .style("width", dimensions2.width)
@@ -407,10 +418,20 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("fill", "#68A7AD") 
                         .style("stroke", "navy")
                         .on('mouseover', function(d,i){
+                               var x = d.pageX;
+                               var y = d.pageY; 
+                                /*
                                 tooltip.html("Year: " + i[0] + "</br>" + "Avg. Sales: " +i[1]).style("visibility", "visible");
                                 d3.select(this).transition()
                                 .attr("r", 6)
                                 .attr("fill", "#FDFD96") 
+                                */
+                        tip.style("opacity", 1)
+                                .html(d.country + "<br/> Gold: " + d.gold + "<br/> Silver: " + d.silver)
+                                .style("left", (x) + "px")
+                                .style("top", (y) + "px")
+                                
+                                
                         })
                         .on('mouseout', function (d, i) {
                                 tooltip.html(``).style("visibility", "hidden");
