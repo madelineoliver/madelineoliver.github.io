@@ -1,10 +1,8 @@
 //This is where the main code is for each graph due to issues with drop down menu 
 d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
-
         //group data by year
         var allGroup = Array.from(d3.group(dataset, d => d.Year), ([key, value]) => ({key, value}), )
-
 
         //get years for dropdown
         var keys = []
@@ -15,8 +13,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         var currentData2 = 0
         var lineTwo= NaN
 
-        
-
         /**********************************************code for Genre bar graph*******************************************************************************/
                 
                 //get Genres for Each year 
@@ -24,10 +20,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 for(var i in allGroup){
                         genreOccur.push(Array.from(d3.group( allGroup[i].value, d => d.Genre ), ([key, value]) => ({key, value})))
                 }
-                 //sort genres
-               /* for(var i =0; i< genreOccur.length; i++){
-                        genreOccur[i].sort(function(a,b){return d3.ascending(a.key, b.key)})
-                       }*/
                 //creating new data
                 var Genres = []
                 var newData ={}
@@ -132,11 +124,16 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 var myColor = d3.scaleOrdinal(["yellow", "steelblue", "green", "purple", " #E1AD9D","orange","red", "blue", "darkgreen"])
 
                 g.append("g")
+                        .attr("class", "axisGray")
                         .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
-                        .call(d3.axisBottom(xScale));
+                        .call(d3.axisBottom(xScale))
+                        .style("stroke", "#C5C5C5");
 
                 g.append("g")
-                        .call(d3.axisLeft(yScale));
+                        .attr("class", "axisGray")
+                        .call(d3.axisLeft(yScale))
+                        .style("stroke", "#C5C5C5");;
+
                 //add grid
                 g.append('g')
                         .attr('class', 'grid')
@@ -146,14 +143,15 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                             .tickFormat(''))
                         .style("stroke-width", .5)
                         .style("stroke-opacity", 0.5)
-                        
+                        .attr("class", "axisGray");
 
                 //graph labels
                 svg1.append("text")
                         .attr('class', 'text')
                         .attr("transform", "translate(" + (dimensions.boundedWidth/2) + " ," + (dimensions.boundedHeight+70) + ")")
                         .style("text-anchor", "middle")
-                        .text("Genre");
+                        .text("Genre")
+                        .style("stroke", "#C5C5C5");
 
                 svg1.append("text")
                         .attr('class', 'text')
@@ -161,9 +159,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("x", -(dimensions.boundedHeight-20))
                         .attr("y", 15)
                         .style("text-anchor", "middle")
-                        .text("# of Genres (per Year)");
+                        .text("# of Genres (per Year)")
+                        .style("stroke", "#C5C5C5");
                         
-                        ["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0","#f0027f","#bf5b17","#666666"]
+                       /* ["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0","#f0027f","#bf5b17","#666666"]
                         ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"]
                         function colorPicker(v) 
                         {
@@ -184,7 +183,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                if(v== "World")
                                         return "#B7C4CF"  
                                 if (v== "Jazz")
-                                        return "#DEB6AB" }
+                                        return "#DEB6AB" }*/
 
                 var init = newData[1990]
               
@@ -248,13 +247,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                                                 .style("opacity", "0.3")
                                 
                                 d3.select(this).style('stroke', 'black')
-                                        
-
-
-
-                                })
-             
-                               
+                                })           
                
                  function updateBars(data){  
                         console.log(data)
@@ -268,8 +261,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                        
                 }
             
-                      
-        
         /**********************************************code for avg world wide sales graph****************************************************************************/
         
         var avg_sales = d3.rollup(dataset, v => d3.mean(v, d => +d.WorldwideSales), d=>+d.Year)
@@ -294,14 +285,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         function drawGraph2(dimensions2, data){
                 dimensions2.boundedWidth = dimensions2.width - dimensions2.margin.right - dimensions2.margin.left
                 dimensions2.boundedHeight = dimensions2.height - dimensions2.margin.top - dimensions2.margin.bottom
-
-                
+   
                 //tooltip
                 var tip2 = d3.select("body").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
                 
-               
                 var svg2 = d3.select("#vis2")
                         .style("width", dimensions2.width)
                         .style("height", dimensions2.height)
@@ -320,23 +309,28 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .range([dimensions2.boundedHeight , 0]);
 
                 svg2.append("g")
+                         .attr("class", "axisGray")
                         .attr("transform", "translate(0," + dimensions2.boundedHeight + ")")
                         .call(d3.axisBottom(xScale))
                         .selectAll("text")  
                         .style("text-anchor", "end")
                         .attr("dx", "-.8em")
                         .attr("dy", ".15em")
-                        .attr("transform", "rotate(-65)");
+                        .attr("transform", "rotate(-65)")
+                        .style("stroke", "#C5C5C5");
         
                 svg2.append("g")
-                        .call(d3.axisLeft(yScale));
+                        .attr("class", "axisGray")
+                        .call(d3.axisLeft(yScale))
+                        .style("stroke", "#C5C5C5");
 
                 //graph labels
                 svg2.append("text")
                         .attr('class', 'text')
                         .attr("transform", "translate(" + (dimensions2.boundedWidth/2) + " ," + (dimensions2.boundedHeight+50) + ")")
                         .style("text-anchor", "middle")
-                        .text("Year");
+                        .text("Year")
+                        .style("stroke", "#C5C5C5");
 
                 svg2.append("text")
                         .attr('class', 'text')
@@ -344,11 +338,11 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("x", -(dimensions2.boundedHeight/2))
                         .attr("y", -80)
                         .style("text-anchor", "middle")
-                        .text(" Avg. Worldwide Sales (per Year)");
+                        .text(" Avg. Worldwide Sales (per Year)")
+                        .style("stroke", "#C5C5C5");
                 //graph text box
                 
-                        
-              
+
                 //lines
                 svg2.append("path")
                         .datum(avg_array)
@@ -411,9 +405,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("r", 5)
                         .attr("fill", "#68A7AD")        
                 })
-}         
+        }         
  
-
         /************************************************code for avg Tracks graph****************************************************************************/
         
         //array of objects grouped by year
@@ -438,7 +431,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
         function drawGraph3(dimensions3, data){
                 dimensions3.boundedWidth = dimensions3.width - dimensions3.margin.right - dimensions3.margin.left
                 dimensions3.boundedHeight = dimensions3.height - dimensions3.margin.top - dimensions3.margin.bottom
-
 
                 var tip3 = d3.select("body").append("div")
                         .attr("class", "tooltip")
@@ -465,7 +457,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr('class', 'text')
                         .attr("transform", "translate(" + (dimensions3.boundedWidth/2) + " ," + (dimensions3.boundedHeight +50) + ")")
                         .style("text-anchor", "middle")
-                        .text("Year");
+                        .text("Year")
+                        .style("stroke", "#C5C5C5");
                 
                 svg3.append("text")
                         .attr('class', 'text')
@@ -473,7 +466,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         .attr("x", -(dimensions3.boundedHeight/2 ))
                         .attr("y",-40)
                         .style("text-anchor", "middle")
-                        .text("Avg. # of Tracks (per Year)");
+                        .text("Avg. # of Tracks (per Year)")
+                        .style("stroke", "#C5C5C5");
 
                 //Text box label
                 const tooltip = d3.select("body")
@@ -546,23 +540,26 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                                 tip3.style("opacity", 0)
 
-
                         })
                         .attr("cx", d => xScale(d[0]))
                         .attr("cy", d => yScale( d[1]))
                         .attr("r", 4.5)
                         
                 svg3.append("g")
+                        .attr("class", "axisGray")
                         .attr("transform", "translate(0," + dimensions3.boundedHeight + ")")
                         .call(d3.axisBottom(xScale))
                         .selectAll("text")  
                         .style("text-anchor", "end")
                         .attr("dx", "-.8em")
                         .attr("dy", ".15em")
-                        .attr("transform", "rotate(-65)");
+                        .attr("transform", "rotate(-65)")
+                        .style("stroke", "#C5C5C5");
         
                 svg3.append("g")
-                        .call(d3.axisLeft(yScale));
+                        .attr("class", "axisGray")
+                        .call(d3.axisLeft(yScale))
+                        .style("stroke", "#C5C5C5");
       
          }
         /************************************** code for main ranking graph ***********************************************************/   
@@ -615,8 +612,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
              .paddingOuter(.5)
              .paddingInner(.5)
              
-        
         svg4.append("g")
+                .attr("class", "axisGray")
                 .attr("transform", "translate(40," + dimensions4.boundedHeight + ")")
                 .call(d3.axisBottom(xScale1))
                 .selectAll("text")  
@@ -626,6 +623,7 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("transform", "rotate(-65)");
 
         svg4.append("g")
+                .attr("class", "axisGray")
                 .call(d3.axisLeft(yScale1).tickSize(0))
                 .attr('transform', `translate(${dimensions4.margin.left}, ${dimensions4.margin.top})`);
 
@@ -633,7 +631,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr('class', 'text')
                 .attr("transform", "translate(" + (dimensions4.boundedWidth/2) + " ," + (dimensions4.boundedHeight +75) + ")")
                 .style("text-anchor", "middle")
-                .text("World Wide Sales (Millions)");
+                .text("World Wide Sales (Millions)")
+                .style("stroke", "#C5C5C5");
         
         svg4.append("text")
                 .attr('class', 'text')
@@ -641,22 +640,19 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("x", -(dimensions4.boundedHeight/2 ))
                 .attr("y",0)
                 .style("text-anchor", "middle")
-                .text("Ranking");
+                .text("Ranking")
+                .style("stroke", "#C5C5C5");
 
 
 
 
         //remove y axis bar
         yScale1.call(d => d.select(".domain").remove)
-
         //initial data
         var initial = newData_main[1990]
-      
-
         
         myColor = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab","#4e79a7"]
-
-        
+   
         var bars2 = bounds2
                 .append("g")
                 .selectAll("rect")
@@ -676,7 +672,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         d3.select(this).style('stroke', 'white')
                         d3.select(this).attr("r", 6);
                         
-
                         var x = d.pageX;
                         var y = d.pageY; 
 
@@ -692,7 +687,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                         //.style("stroke", "lightgrey")
                         .style("opacity", "0.05")
                         
-
                         //select the element that matches on the parallel graph
                         var ranking = i.value[0].Ranking
                         console.log(ranking)
@@ -733,38 +727,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 
 
         /************************************** code for Album length graph ***********************************************/   
-        //console.log(allGroup)
-      /*  var  alLength = []
-        for(var i in allGroup)
-                alLength.push(Array.from(d3.group( allGroup[i].value, d => d.AlbumLength ), ([key, value]) => ({key, value}))) 
-        //console.log(alLength)
-        var newData5 ={}
-        for (var i=0; i < keys.length; i++) {
-                newData5[keys[i]] = alLength[i];
-        }*/
-        /*
-        var dataset5 = dataset.filter((d,i) => i !== 'columns');
-        dataset5 = dataset.map((d) => {
-                return { Year: d.Year, Length: d.Minutes}
-        })
-        */
-       /*
-        var dataset5 = Object.keys(dataset[0]).filter((d,i) => i !== 'columns');
-        dataset5 = dataset.map((d) => {
-                return {d.Year, d.Minutes}
-        })
-        */
 
         //getting the keys for the 2 y axis- years and minutes for the time scale 
         var dataset5 = Object.keys(dataset[0]).filter(function(d) { return d == "Year" ||  d == "Minutes" || d == "Tracks"})
 
         console.log(dataset5)
 
-        //console.log(dataset5)
-        //var dataset5 = dataset.filter(function(d,i) {return d != 'Year'})
-        //console.log(dataset5)
-
-        
                 var dimensions5 = ({
                         width: 1000,
                         height: 450,
@@ -784,19 +752,13 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .attr("height", dimensions5.height + dimensions5.margin.top + dimensions.margin.bottom)
                 .append("g")
                 .attr("transform","translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
-                //console.log(dataset5.keys()) 
-
 
                 var tip5 = d3.select("body").append("div")
                         .attr("class", "tooltip")
                         .style("opacity", 0)
 
-               // var dim = [Object.keys(dataset5[0])]
-               // console.log(dim[0][0])
                 var y = {}
-                //console.log(dataset5[0].Year)
                 for (i in dataset5) {
-                  //console.log(i)
                   var name = dataset5[i]
                   y[name] = d3.scaleLinear()
                     .domain( d3.extent(dataset, function(d) {return +d[name] }) )
@@ -807,13 +769,10 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .range([0, dimensions5.boundedWidth])
                 .padding(.5)
                 .domain(dataset5);
-
             
                 var color = d3.scaleOrdinal()
                         .domain([d3.extent(dataset, d => d.Year)])
                         .range(["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"])
-
-
 
                 function path(d) {
                         return d3.line()(dataset5.map(function(p) { return [x(p), y[p](d[p])]; }));
@@ -872,11 +831,12 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                           tip5.style("opacity", 0)
                 })
-
                 
                 svg5.selectAll("myAxis")
+              
                 .data(dataset5).enter()
                 .append("g")
+                .attr("class", "axisGray")
                 // I translate this element to its right position on the x axis
                 .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
                 // And I build the axis with the call function
@@ -886,7 +846,8 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
                 .style("text-anchor", "middle")
                 .attr("y", -9)
                 .text(function(d) { return d; })
-                .style("fill", "black")  
+                .style("fill", "black") 
+                .style("stroke", "#C5C5C5") 
 
        
         /*********************************create drop down and update based on dropdown selection***************************************************************************/
