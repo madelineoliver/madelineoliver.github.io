@@ -875,7 +875,6 @@ d3.csv("Top 10 Albums By Year Album Length-Sheet1.csv").then(function (dataset){
 
                 
                 svg5.selectAll("myAxis")
-                // For each dimension of the dataset I add a 'g' element:
                 .data(dataset5).enter()
                 .append("g")
                 // I translate this element to its right position on the x axis
